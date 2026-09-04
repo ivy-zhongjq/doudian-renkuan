@@ -286,7 +286,44 @@ function handleImportInvoice() {
 }
 
 function handleEdit(orderNo) {
-  showToast(`编辑订单 ${orderNo}`, 'info');
+  const order = DB.orders.find(o => o.totalOrderNo === orderNo);
+  if (!order) return;
+
+  // 设置弹窗标题和订单号
+  document.getElementById('remarkOrderNo').textContent = orderNo;
+  // 填充当前备注内容
+  document.getElementById('remarkInput').value = order.remark || '';
+
+  // 显示弹窗
+  const modal = document.getElementById('remarkModal');
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeRemarkModal() {
+  const modal = document.getElementById('remarkModal');
+  modal.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function saveRemark() {
+  const orderNo = document.getElementById('remarkOrderNo').textContent;
+  const remarkValue = document.getElementById('remarkInput').value.trim();
+
+  // 更新数据
+  const order = DB.orders.find(o => o.totalOrderNo === orderNo);
+  if (order) {
+    order.remark = remarkValue;
+  }
+
+  // 关闭弹窗
+  closeRemarkModal();
+
+  // 重新渲染表格
+  renderOrderTable();
+
+  // 提示
+  showToast('备注已保存', 'success');
 }
 
 // ===== Toast 提示 =====
@@ -333,12 +370,16 @@ document.addEventListener('click', (e) => {
   if (e.target.id === 'orderDetailModal') {
     closeModal();
   }
+  if (e.target.id === 'remarkModal') {
+    closeRemarkModal();
+  }
 });
 
 // ===== ESC 键关闭弹窗 =====
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeModal();
+    closeRemarkModal();
   }
 });
 

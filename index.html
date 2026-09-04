@@ -562,9 +562,37 @@
     </div>
   </div>
 
+  <!-- ===== 备注编辑弹窗 ===== -->
+  <div class="modal-mask" id="remarkModal">
+    <div class="modal" style="max-width: 500px;">
+      <div class="modal-header">
+        <div class="modal-title" id="remarkModalTitle">编辑备注</div>
+        <button class="modal-close" onclick="closeRemarkModal()">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 12px;">
+          <span style="font-size: 13px; color: var(--text-tertiary);">总订单号：</span>
+          <span id="remarkOrderNo" style="font-size: 14px; font-weight: 500; color: var(--text-primary);"></span>
+        </div>
+        <div>
+          <label style="font-size: 13px; color: var(--text-secondary); display: block; margin-bottom: 8px;">备注内容</label>
+          <textarea id="remarkInput" rows="5" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; color: var(--text-primary); resize: vertical; line-height: 1.6; font-family: inherit; box-sizing: border-box;" placeholder="请输入备注内容..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" onclick="closeRemarkModal()">取消</button>
+        <button class="btn btn-primary" onclick="saveRemark()">确定</button>
+      </div>
+    </div>
+  </div>
+
   <script src="mock.js"></script>
   <script src="app.js"></script>
-
 
 
 
