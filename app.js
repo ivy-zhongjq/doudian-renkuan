@@ -270,6 +270,8 @@ function renderDetailInvoiceStatus(status) {
     return '<span class="status-tag info">抖店已开票</span>';
   } else if (status === '无需开票') {
     return '<span class="status-tag gray">无需开票</span>';
+  } else if (status === '待开票') {
+    return '<span class="status-tag warning">待开票</span>';
   } else if (status === '未开票') {
     return '<span class="status-tag warning">未开票</span>';
   }

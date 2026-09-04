@@ -202,8 +202,8 @@ const DB = {
         fundCategory: '信息服务费',
         fundMonth: '2026-04',
         customerName: '北京字跳网络技术有限公司',
-        invoiceStatus: '已开票',
-        invoiceAmount: 5,
+        invoiceStatus: '待开票',
+        invoiceAmount: '-',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       },
