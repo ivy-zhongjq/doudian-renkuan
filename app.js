@@ -99,6 +99,7 @@ function renderOrderTable() {
         <td class="num-col">${order.platformSubsidy}</td>
         <td class="num-col">${order.paymentDiscount}</td>
         <td class="num-col">${order.influencerCommission}</td>
+        <td class="num-col">${order.influencerServiceFee}</td>
         <td class="num-col">${order.platformCommission}</td>
         <td class="num-col">${order.settlementAmount}</td>
         <td class="num-col">${order.recognizedAmount}</td>
@@ -187,6 +188,10 @@ function openOrderDetail(totalOrderNo) {
         <span class="summary-value">¥${order.influencerCommission}</span>
       </div>
       <div class="summary-item">
+        <span class="summary-label">达人佣金服务费</span>
+        <span class="summary-value">¥${order.influencerServiceFee}</span>
+      </div>
+      <div class="summary-item">
         <span class="summary-label">平台佣金</span>
         <span class="summary-value">¥${order.platformCommission}</span>
       </div>
@@ -211,7 +216,7 @@ function openOrderDetail(totalOrderNo) {
           <line x1="12" y1="8" x2="12.01" y2="8"/>
         </svg>
       </span>
-      <span>注：达人佣金和平台佣金先从原订单金额扣除</span>
+      <span>注：达人佣金和平台佣金先从原订单金额扣除；达人佣金服务费为达人佣金的10%</span>
     </div>
   `;
   summaryEl.innerHTML += noteHtml;
