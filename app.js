@@ -168,10 +168,6 @@ function openOrderDetail(totalOrderNo) {
   if (order) {
     summaryEl.innerHTML = `
       <div class="summary-item">
-        <span class="summary-label">总订单号</span>
-        <span class="summary-value">${totalOrderNo}</span>
-      </div>
-      <div class="summary-item">
         <span class="summary-label">订单总金额</span>
         <span class="summary-value">¥${order.orderAmount}</span>
       </div>
