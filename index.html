@@ -180,7 +180,7 @@
               </select>
             </div>
             <div class="filter-item">
-              <label>抖店是否已开票</label>
+              <label>抖店开票</label>
               <select id="filterDouyinInvoice">
                 <option value="">全部</option>
                 <option value="已开票">已开票</option>
@@ -188,7 +188,7 @@
               </select>
             </div>
             <div class="filter-item">
-              <label>我司是否已开票</label>
+              <label>本方开票</label>
               <select id="filterOurInvoice">
                 <option value="">全部</option>
                 <option value="已开票">已开票</option>
@@ -249,7 +249,7 @@
                     <th class="num-col">结算金额</th>
                     <th class="num-col">已认款</th>
                     <th>交易时间</th>
-                    <th>我司开票</th>
+                    <th>我方开票</th>
                     <th>抖店开票</th>
                     <th>是否已结清</th>
                     <th style="width: 126px; min-width: 126px;">备注</th>
@@ -433,10 +433,6 @@
         <!-- 摘要信息 -->
         <div class="modal-summary" id="modalSummary">
       <div class="summary-item">
-        <span class="summary-label">总订单号</span>
-        <span class="summary-value">6925165121833041575</span>
-      </div>
-      <div class="summary-item">
         <span class="summary-label">订单总金额</span>
         <span class="summary-value">¥198</span>
       </div>
@@ -482,110 +478,7 @@
   </div>
         <!-- 关联订单表格 -->
         <div class="table-wrap">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>关联订单号</th>
-                <th class="num-col">关联金额</th>
-                <th>认款状态</th>
-                <th class="num-col">认领金额</th>
-                <th>款项类别</th>
-                <th>款项月份</th>
-                <th>客户名称</th>
-                <th>是否开票</th>
-                <th class="num-col">开票金额</th>
-                <th>认领时间</th>
-                <th>认领人</th>
-              </tr>
-            </thead>
-            <tbody id="detailTableBody">
-      <tr>
-        <td>692516
-512183
-304157
-5</td>
-        <td class="num-col">187.5</td>
-        <td><span class="status-tag success">已认款</span></td>
-        <td class="num-col">167.7</td>
-        <td><span class="category-text">礼品</span></td>
-        <td>2026-04</td>
-        <td>抖音零售客户</td>
-        <td><span class="status-tag success">已开票</span></td>
-        <td class="num-col">187.5</td>
-        <td>2026-09-01</td>
-        <td>饶子杰</td>
-      </tr>
-    
-      <tr>
-        <td>692516
-512183
-304157
-5-A</td>
-        <td class="num-col">9</td>
-        <td><span class="status-tag success">已认款</span></td>
-        <td class="num-col">9</td>
-        <td><span class="category-text">信息服务费</span></td>
-        <td>2026-04</td>
-        <td>北京有竹居网络技术有限公司</td>
-        <td><span class="status-tag success">已开票</span></td>
-        <td class="num-col">9</td>
-        <td>2026-09-01</td>
-        <td>饶子杰</td>
-      </tr>
-    
-      <tr>
-        <td>692516
-512183
-304157
-5-B</td>
-        <td class="num-col">1.5</td>
-        <td><span class="status-tag success">已认款</span></td>
-        <td class="num-col">1.5</td>
-        <td><span class="category-text">信息服务费</span></td>
-        <td>2026-04</td>
-        <td>北京字跳网络技术有限公司</td>
-        <td><span class="status-tag success">已开票</span></td>
-        <td class="num-col">1.5</td>
-        <td>2026-09-01</td>
-        <td>饶子杰</td>
-      </tr>
-    
-      <tr>
-        <td>692516
-512183
-304157
-5</td>
-        <td class="num-col">8.91</td>
-        <td><span class="status-tag success">已认款</span></td>
-        <td class="num-col">8.91</td>
-        <td><span class="category-text">信息服务费-待确定
-达人佣金</span></td>
-        <td>2026-04</td>
-        <td>抖音零售客户</td>
-        <td><span class="status-tag gray">无需开票</span></td>
-        <td class="num-col">-</td>
-        <td>2026-09-01</td>
-        <td>饶子杰</td>
-      </tr>
-    
-      <tr>
-        <td>692516
-512183
-304157
-5</td>
-        <td class="num-col">9.9</td>
-        <td>-</td>
-        <td class="num-col">-</td>
-        <td><span class="category-text">-</span></td>
-        <td>2026-04</td>
-        <td>-</td>
-        <td><span class="status-tag info">抖店已开票</span></td>
-        <td class="num-col">9.9</td>
-        <td>2026-09-01</td>
-        <td>饶子杰</td>
-      </tr>
-    </tbody>
-          </table>
+          
         </div>
       </div>
       <div class="modal-footer">
@@ -625,6 +518,8 @@
 
   <script src="mock.js"></script>
   <script src="app.js"></script>
+
+
 
 
 
