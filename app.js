@@ -145,7 +145,7 @@ function renderInvoiceStatus(status) {
 // 下载发票
 function handleDownloadInvoice(e) {
   e.stopPropagation();
-  showToast('发票下载中...', 'info', 5000);
+  showToast('发票下载中...', 'info', 2000);
 }
 
 // 渲染结清状态
