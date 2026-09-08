@@ -133,13 +133,19 @@ function formatOrderNo(orderNo) {
 // 渲染开票状态
 function renderInvoiceStatus(status) {
   if (status === '已开票') {
-    return '<span class="status-tag success">已开票</span>';
+    return '<span class="status-tag success">已开票</span> <button class="btn-download" onclick="handleDownloadInvoice(event)" title="下载发票"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>';
   } else if (status === '部分开票') {
     return '<span class="status-tag warning">部分开票</span>';
   } else if (status === '未开票') {
     return '<span class="status-tag gray">未开票</span>';
   }
   return status || '-';
+}
+
+// 下载发票
+function handleDownloadInvoice(e) {
+  e.stopPropagation();
+  showToast('发票下载中...', 'info', 5000);
 }
 
 // 渲染结清状态
@@ -330,7 +336,7 @@ function saveRemark() {
 }
 
 // ===== Toast 提示 =====
-function showToast(message, type = 'info') {
+function showToast(message, type = 'info', duration = 2000) {
   // 创建 toast 元素
   const toast = document.createElement('div');
   toast.style.cssText = `
@@ -365,7 +371,7 @@ function showToast(message, type = 'info') {
     setTimeout(() => {
       document.body.removeChild(toast);
     }, 300);
-  }, 2000);
+  }, duration);
 }
 
 // ===== 点击遮罩关闭弹窗 =====

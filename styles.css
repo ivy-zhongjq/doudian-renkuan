@@ -780,6 +780,27 @@ table {
   white-space: nowrap;
 }
 
+/* 下载按钮 */
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: transparent;
+  color: var(--primary);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  vertical-align: middle;
+  transition: all var(--transition-fast);
+}
+
+.btn-download:hover {
+  background-color: var(--primary-light);
+  color: var(--primary-hover);
+}
+
 /* ===== 分页 ===== */
 .pagination {
   display: flex;
