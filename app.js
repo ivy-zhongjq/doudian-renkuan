@@ -290,7 +290,7 @@ function openRecognizedDetail(totalOrderNo) {
   const order = DB.orders.find(o => o.totalOrderNo === totalOrderNo);
   if (!order) return;
 
-  document.getElementById('recognizedDetailTitle').textContent = `已认款明细 - 交易流水号: ${totalOrderNo}`;
+  document.getElementById('recognizedDetailTitle').textContent = `已认款明细 - 交易流水号: 110001900GYKG4GJZW5`;
 
   const tbody = document.getElementById('recognizedDetailBody');
 
@@ -312,7 +312,7 @@ function openRecognizedDetail(totalOrderNo) {
       html += `
         <tr>
           <td>2026-03-27</td>
-          <td>${item.relatedOrderNo}</td>
+          <td>110001900GYKG4GJZW5</td>
           <td>${payerName}</td>
           <td>${renderRecognizeStatus(item.recognizeStatus)}</td>
           <td class="num-col">${item.recognizedAmount}</td>
