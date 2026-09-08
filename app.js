@@ -472,17 +472,6 @@ function createAutoBlock(index, custValue, custLabel, paymentType, data) {
         <button class="btn btn-text" style="color: var(--danger); font-size: 12px; padding: 2px 8px;" onclick="removeRenkuanBlock(this)" title="删除板块">✕ 删除板块</button>
       </div>
       <div class="filter-item" style="gap: 12px; margin-bottom: 12px;">
-        <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">付款方户名</label>
-        <select class="payer-account" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background-color: #fff; font-size: 13px; color: var(--text-primary); min-width: 200px;" onchange="updatePayerAmount(this)">
-          <option value="">请选择</option>
-          <option value="杭州银行-平台商户交易资金待清算账户（抖音）——2000">杭州银行-平台商户交易资金待清算账户（抖音）——2000</option>
-          <option value="江苏银行-平台交易资金专户（抖音）——3500">江苏银行-平台交易资金专户（抖音）——3500</option>
-        </select>
-      </div>
-      <div class="payer-amount-display" style="margin-top: -4px; margin-bottom: 12px; padding: 8px 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-sm); font-size: 13px; color: #15803d; display: none;">
-        可认款金额：<span class="payer-amount-value" style="font-weight: 600;">-</span>
-      </div>
-      <div class="filter-item" style="gap: 12px; margin-bottom: 12px;">
         <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">K3客户 <span style="color: var(--danger);">*</span></label>
         <select style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background-color: #fff; font-size: 13px; color: var(--text-primary); min-width: 200px;">
           <option value="">请选择</option>
@@ -546,6 +535,20 @@ function createAutoBlock(index, custValue, custLabel, paymentType, data) {
   `;
 
   container.insertAdjacentHTML('beforeend', blockHtml);
+}
+
+// 顶部付款方户名金额显示
+function updateTopPayerAmount(selectEl) {
+  const display = document.getElementById('topPayerAmountDisplay');
+  const valueEl = document.getElementById('topPayerAmountValue');
+  if (selectEl.value) {
+    const amount = selectEl.value.split('——')[1];
+    valueEl.textContent = '¥' + amount;
+    display.style.display = 'block';
+  } else {
+    display.style.display = 'none';
+  }
+  updateRenkuanSummary();
 }
 
 function closeRenkuanImportModal() {
@@ -666,17 +669,6 @@ function addRenkuanBlock() {
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
         <span style="font-size: 13px; font-weight: 600; color: var(--text-primary);">认款板块 ${newIndex}</span>
         <button class="btn btn-text" style="color: var(--danger); font-size: 12px; padding: 2px 8px;" onclick="removeRenkuanBlock(this)" title="删除板块">✕ 删除板块</button>
-      </div>
-      <div class="filter-item" style="gap: 12px; margin-bottom: 12px;">
-        <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">付款方户名</label>
-        <select class="payer-account" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background-color: #fff; font-size: 13px; color: var(--text-primary); min-width: 200px;" onchange="updatePayerAmount(this)">
-          <option value="">请选择</option>
-          <option value="杭州银行-平台商户交易资金待清算账户（抖音）——2000">杭州银行-平台商户交易资金待清算账户（抖音）——2000</option>
-          <option value="江苏银行-平台交易资金专户（抖音）——3500">江苏银行-平台交易资金专户（抖音）——3500</option>
-        </select>
-      </div>
-      <div class="payer-amount-display" style="margin-top: -4px; margin-bottom: 12px; padding: 8px 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-sm); font-size: 13px; color: #15803d; display: none;">
-        可认款金额：<span class="payer-amount-value" style="font-weight: 600;">-</span>
       </div>
       <div class="filter-item" style="gap: 12px; margin-bottom: 12px;">
         <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">K3客户 <span style="color: var(--danger);">*</span></label>
