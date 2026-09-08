@@ -351,7 +351,7 @@ function handleBillUpload() {
     const container = document.getElementById('renkuanBlocksContainer');
     container.innerHTML = '';
 
-    // 按 "客户|款项类型" 分组
+    // 按 "客户|款项类型" 分组，同组内合并金额和订单号
     const groups = {};
 
     DB.mockBillData.forEach((bill) => {
@@ -361,47 +361,45 @@ function handleBillUpload() {
       const amount1 = parseFloat((bill.userPaid - bill.totalExpenditure + bill.influencerCommission).toFixed(2));
       if (amount1 !== 0) {
         const key = 'CUST1001|' + paymentType;
-        if (!groups[key]) groups[key] = { custValue: 'CUST1001', custLabel: '抖音零售客户', paymentType: paymentType, items: [] };
-        groups[key].items.push({
-          amount: amount1,
-          orderNo: bill.orderNo,
-          remark: '用户实付（已减去扣减费用与达人佣金）'
-        });
+        if (!groups[key]) groups[key] = { custValue: 'CUST1001', custLabel: '抖音零售客户', paymentType: paymentType, amount: 0, orderNos: [], remarks: [] };
+        groups[key].amount = parseFloat((groups[key].amount + amount1).toFixed(2));
+        groups[key].orderNos.push(bill.orderNo);
+        groups[key].remarks.push('用户实付');
       }
 
       // 2. 北京有竹居：款项类型=信息服务费，金额=平台补贴
       const amount2 = parseFloat(bill.platformSubsidy.toFixed(2));
       if (amount2 !== 0) {
         const key = 'CUST1002|信息服务费';
-        if (!groups[key]) groups[key] = { custValue: 'CUST1002', custLabel: '北京有竹居网络技术有限公司', paymentType: '信息服务费', items: [] };
-        groups[key].items.push({
-          amount: amount2,
-          orderNo: bill.orderNo + '-A',
-          remark: '平台补贴'
-        });
+        if (!groups[key]) groups[key] = { custValue: 'CUST1002', custLabel: '北京有竹居网络技术有限公司', paymentType: '信息服务费', amount: 0, orderNos: [], remarks: [] };
+        groups[key].amount = parseFloat((groups[key].amount + amount2).toFixed(2));
+        groups[key].orderNos.push(bill.orderNo + '-A');
+        groups[key].remarks.push('平台补贴');
       }
 
       // 3. 字跳科技：款项类型=信息服务费，金额=抖音支付补贴+抖音月付补贴
       const amount3 = parseFloat((bill.douyinPaySubsidy + bill.douyinMonthlySubsidy).toFixed(2));
       if (amount3 !== 0) {
         const key = 'CUST1003|信息服务费';
-        if (!groups[key]) groups[key] = { custValue: 'CUST1003', custLabel: '北京字跳网络技术有限公司', paymentType: '信息服务费', items: [] };
-        groups[key].items.push({
-          amount: amount3,
-          orderNo: bill.orderNo + '-B',
-          remark: '支付优惠'
-        });
+        if (!groups[key]) groups[key] = { custValue: 'CUST1003', custLabel: '北京字跳网络技术有限公司', paymentType: '信息服务费', amount: 0, orderNos: [], remarks: [] };
+        groups[key].amount = parseFloat((groups[key].amount + amount3).toFixed(2));
+        groups[key].orderNos.push(bill.orderNo + '-B');
+        groups[key].remarks.push('支付优惠');
       }
     });
 
-    // 按分组生成板块
+    // 按分组生成板块，每个板块一行，关联订单号为多选
     const groupKeys = Object.keys(groups);
     if (groupKeys.length === 0) {
-      createAutoBlock(1, '', '', '', [{ amount: 0, orderNo: '', remark: '' }]);
+      createAutoBlock(1, '', '', '', { amount: 0, orderNos: [], remark: '' });
     } else {
       groupKeys.forEach((key, idx) => {
         const g = groups[key];
-        createAutoBlock(idx + 1, g.custValue, g.custLabel, g.paymentType, g.items);
+        createAutoBlock(idx + 1, g.custValue, g.custLabel, g.paymentType, {
+          amount: g.amount,
+          orderNos: g.orderNos,
+          remark: g.remarks.join('、')
+        });
       });
     }
 
@@ -416,38 +414,14 @@ function handleBillUpload() {
   }, 1500);
 }
 
-function createAutoBlock(index, custValue, custLabel, paymentType, items) {
+function createAutoBlock(index, custValue, custLabel, paymentType, data) {
   const container = document.getElementById('renkuanBlocksContainer');
 
-  // 生成明细行
-  let rowsHtml = '';
-  items.forEach((item) => {
-    rowsHtml += `
-      <tr>
-        <td>
-          <select style="width: 100%; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
-            <option value="">请选择</option>
-            <option value="机台" ${paymentType === '机台' ? 'selected' : ''}>机台</option>
-            <option value="配件" ${paymentType === '配件' ? 'selected' : ''}>配件</option>
-            <option value="分成" ${paymentType === '分成' ? 'selected' : ''}>分成</option>
-            <option value="卡片" ${paymentType === '卡片' ? 'selected' : ''}>卡片</option>
-            <option value="礼品" ${paymentType === '礼品' ? 'selected' : ''}>礼品</option>
-            <option value="其他" ${paymentType === '其他' ? 'selected' : ''}>其他</option>
-            <option value="押金" ${paymentType === '押金' ? 'selected' : ''}>押金</option>
-            <option value="信息服务" ${paymentType === '信息服务' ? 'selected' : ''}>信息服务</option>
-            <option value="信息服务费" ${paymentType === '信息服务费' ? 'selected' : ''}>信息服务费</option>
-            <option value="游艺安装" ${paymentType === '游艺安装' ? 'selected' : ''}>游艺安装</option>
-            <option value="游艺设计" ${paymentType === '游艺设计' ? 'selected' : ''}>游艺设计</option>
-          </select>
-        </td>
-        <td><input type="number" value="${item.amount || ''}" style="width: 80px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; text-align: right;" placeholder="0.00" oninput="updateRenkuanTotal()"></td>
-        <td><input type="month" value="2026-03" style="width: 110px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;"></td>
-        <td><input type="text" value="${custLabel || ''}" style="width: 120px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="客户名称"></td>
-        <td><input type="text" value="${item.orderNo || ''}" style="width: 120px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="订单号"></td>
-        <td><input type="text" value="${item.remark || ''}" style="width: 100px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="备注"></td>
-        <td style="text-align: center;"><button style="border: none; background: transparent; color: var(--danger); cursor: pointer; font-size: 16px; padding: 2px 6px;" onclick="removeRenkuanRow(this)" title="删除">✕</button></td>
-      </tr>
-    `;
+  // 生成关联订单号多选选项
+  const orderNos = data.orderNos || [];
+  let orderOptionsHtml = '';
+  orderNos.forEach((orderNo) => {
+    orderOptionsHtml += `<option value="${orderNo}" selected>${orderNo}</option>`;
   });
 
   const blockHtml = `
@@ -485,13 +459,40 @@ function createAutoBlock(index, custValue, custLabel, paymentType, items) {
               <th class="num-col">认领金额 <span style="color: var(--danger);">*</span></th>
               <th>款项月份</th>
               <th>客户名称</th>
-              <th>关联订单号</th>
+              <th>关联订单号（多选）</th>
               <th>款项备注</th>
               <th style="width: 50px;">操作</th>
             </tr>
           </thead>
           <tbody class="renkuan-detail-body">
-            ${rowsHtml}
+            <tr>
+              <td>
+                <select style="width: 100%; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
+                  <option value="">请选择</option>
+                  <option value="机台" ${paymentType === '机台' ? 'selected' : ''}>机台</option>
+                  <option value="配件" ${paymentType === '配件' ? 'selected' : ''}>配件</option>
+                  <option value="分成" ${paymentType === '分成' ? 'selected' : ''}>分成</option>
+                  <option value="卡片" ${paymentType === '卡片' ? 'selected' : ''}>卡片</option>
+                  <option value="礼品" ${paymentType === '礼品' ? 'selected' : ''}>礼品</option>
+                  <option value="其他" ${paymentType === '其他' ? 'selected' : ''}>其他</option>
+                  <option value="押金" ${paymentType === '押金' ? 'selected' : ''}>押金</option>
+                  <option value="信息服务" ${paymentType === '信息服务' ? 'selected' : ''}>信息服务</option>
+                  <option value="信息服务费" ${paymentType === '信息服务费' ? 'selected' : ''}>信息服务费</option>
+                  <option value="游艺安装" ${paymentType === '游艺安装' ? 'selected' : ''}>游艺安装</option>
+                  <option value="游艺设计" ${paymentType === '游艺设计' ? 'selected' : ''}>游艺设计</option>
+                </select>
+              </td>
+              <td><input type="number" value="${data.amount || ''}" style="width: 80px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; text-align: right;" placeholder="0.00" oninput="updateRenkuanTotal()"></td>
+              <td><input type="month" value="2026-03" style="width: 110px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;"></td>
+              <td><input type="text" value="${custLabel || ''}" style="width: 120px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="客户名称"></td>
+              <td>
+                <select multiple style="width: 150px; min-height: 60px; padding: 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
+                  ${orderOptionsHtml || '<option value="">（暂无订单）</option>'}
+                </select>
+              </td>
+              <td><input type="text" value="${data.remark || ''}" style="width: 100px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="备注"></td>
+              <td style="text-align: center;"><button style="border: none; background: transparent; color: var(--danger); cursor: pointer; font-size: 16px; padding: 2px 6px;" onclick="removeRenkuanRow(this)" title="删除">✕</button></td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -539,6 +540,7 @@ function addRenkuanRow(btnEl) {
         <option value="其他">其他</option>
         <option value="押金">押金</option>
         <option value="信息服务">信息服务</option>
+        <option value="信息服务费">信息服务费</option>
         <option value="游艺安装">游艺安装</option>
         <option value="游艺设计">游艺设计</option>
       </select>
@@ -546,7 +548,11 @@ function addRenkuanRow(btnEl) {
     <td><input type="number" style="width: 80px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; text-align: right;" placeholder="0.00" oninput="updateRenkuanTotal()"></td>
     <td><input type="month" style="width: 110px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;"></td>
     <td><input type="text" style="width: 120px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="客户名称"></td>
-    <td><input type="text" style="width: 120px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="订单号"></td>
+    <td>
+      <select multiple style="width: 150px; min-height: 60px; padding: 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
+        <option value="">（暂无订单）</option>
+      </select>
+    </td>
     <td><input type="text" style="width: 100px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="备注"></td>
     <td style="text-align: center;"><button style="border: none; background: transparent; color: var(--danger); cursor: pointer; font-size: 16px; padding: 2px 6px;" onclick="removeRenkuanRow(this)" title="删除">✕</button></td>
   `;
@@ -614,7 +620,7 @@ function addRenkuanBlock() {
               <th class="num-col">认领金额 <span style="color: var(--danger);">*</span></th>
               <th>款项月份</th>
               <th>客户名称</th>
-              <th>关联订单号</th>
+              <th>关联订单号（多选）</th>
               <th>款项备注</th>
               <th style="width: 50px;">操作</th>
             </tr>
@@ -632,6 +638,7 @@ function addRenkuanBlock() {
                   <option value="其他">其他</option>
                   <option value="押金">押金</option>
                   <option value="信息服务">信息服务</option>
+                  <option value="信息服务费">信息服务费</option>
                   <option value="游艺安装">游艺安装</option>
                   <option value="游艺设计">游艺设计</option>
                 </select>
@@ -639,7 +646,11 @@ function addRenkuanBlock() {
               <td><input type="number" style="width: 80px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; text-align: right;" placeholder="0.00" oninput="updateRenkuanTotal()"></td>
               <td><input type="month" style="width: 110px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;"></td>
               <td><input type="text" style="width: 120px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="客户名称"></td>
-              <td><input type="text" style="width: 120px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="订单号"></td>
+              <td>
+                <select multiple style="width: 150px; min-height: 60px; padding: 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
+                  <option value="">（暂无订单）</option>
+                </select>
+              </td>
               <td><input type="text" style="width: 100px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="备注"></td>
               <td style="text-align: center;"><button style="border: none; background: transparent; color: var(--danger); cursor: pointer; font-size: 16px; padding: 2px 6px;" onclick="removeRenkuanRow(this)" title="删除">✕</button></td>
             </tr>
