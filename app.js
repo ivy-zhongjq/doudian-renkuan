@@ -459,11 +459,7 @@ function createAutoBlock(index, custValue, custLabel, paymentType, data) {
   // 生成关联订单号多选选项（全部可选，已匹配的选中）
   const selectedOrderNos = data.orderNos || [];
   const allOrderNos = DB.getOrderNoOptions();
-  let orderOptionsHtml = '';
-  allOrderNos.forEach((orderNo) => {
-    const selected = selectedOrderNos.includes(orderNo) ? 'selected' : '';
-    orderOptionsHtml += `<option value="${orderNo}" ${selected}>${orderNo}</option>`;
-  });
+  const multiSelectHtml = createMultiSelect(allOrderNos, selectedOrderNos, '160px');
 
   const blockHtml = `
     <div class="renkuan-block" data-block-index="${index}" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; background: #fafafa;">
@@ -520,9 +516,7 @@ function createAutoBlock(index, custValue, custLabel, paymentType, data) {
                 </select>
               </td>
               <td>
-                <select multiple style="width: 160px; min-height: 60px; padding: 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
-                  ${orderOptionsHtml || '<option value="">（暂无订单）</option>'}
-                </select>
+                ${multiSelectHtml}
               </td>
               <td><input type="text" value="${data.remark || ''}" style="width: 100px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="备注"></td>
               <td style="text-align: center;"><button style="border: none; background: transparent; color: var(--danger); cursor: pointer; font-size: 16px; padding: 2px 6px;" onclick="removeRenkuanRow(this)" title="删除">✕</button></td>
@@ -550,6 +544,104 @@ function updateTopPayerAmount(selectEl) {
   }
   updateRenkuanSummary();
 }
+
+// ===== 多选下拉框组件 =====
+function createMultiSelect(options, selectedValues, width) {
+  const selected = selectedValues || [];
+  const opts = options || [];
+  const w = width || '160px';
+
+  // 生成选项HTML
+  let optionsHtml = '';
+  opts.forEach((opt) => {
+    const val = typeof opt === 'object' ? opt.value : opt;
+    const label = typeof opt === 'object' ? opt.label : opt;
+    const checked = selected.includes(val) ? 'checked' : '';
+    const checkedClass = selected.includes(val) ? 'checked' : '';
+    optionsHtml += `
+      <div class="multi-select-option ${checkedClass}" data-value="${val}" onclick="handleMultiSelectOptionClick(this)">
+        <input type="checkbox" value="${val}" ${checked}" onclick="event.stopPropagation()">
+        <span>${label}</span>
+      </div>
+    `;
+  });
+
+  // 显示文本
+  let displayText = '';
+  if (selected.length === 0) {
+    displayText = '<span class="placeholder">请选择</span>';
+  } else if (selected.length === 1) {
+    const first = opts.find(o => (typeof o === 'object' ? o.value : o) === selected[0]);
+    displayText = typeof first === 'object' ? first.label : first || selected[0];
+  } else {
+    displayText = `已选 ${selected.length} 项`;
+  }
+
+  return `
+    <div class="multi-select" style="width: ${w};" onclick="event.stopPropagation()">
+      <div class="multi-select-trigger" onclick="toggleMultiSelect(this)">
+        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${displayText}</span>
+      </div>
+      <div class="multi-select-dropdown">
+        ${optionsHtml}
+      </div>
+    </div>
+  `;
+}
+
+function toggleMultiSelect(triggerEl) {
+  const container = triggerEl.closest('.multi-select');
+  // 先关闭所有其他的
+  document.querySelectorAll('.multi-select.open').forEach((ms) => {
+    if (ms !== container) ms.classList.remove('open');
+  });
+  container.classList.toggle('open');
+}
+
+// 点击多选下拉选项
+function handleMultiSelectOptionClick(optionEl) {
+  const checkbox = optionEl.querySelector('input[type="checkbox"]');
+  checkbox.checked = !checkbox.checked;
+  optionEl.classList.toggle('checked', checkbox.checked);
+  updateMultiSelectTrigger(optionEl.closest('.multi-select'));
+}
+
+// 更新多选下拉触发按钮显示
+function updateMultiSelectTrigger(container) {
+  const checkboxes = container.querySelectorAll('input[type="checkbox"]:checked');
+  const trigger = container.querySelector('.multi-select-trigger span');
+  const allOptions = container.querySelectorAll('.multi-select-option');
+  const values = [];
+  allOptions.forEach((opt) => {
+    const cb = opt.querySelector('input[type="checkbox"]');
+    if (cb.checked) values.push(opt.dataset.value);
+  });
+
+  if (values.length === 0) {
+    trigger.innerHTML = '<span class="placeholder">请选择</span>';
+  } else if (values.length === 1) {
+    const opt = container.querySelector(`.multi-select-option[data-value="${values[0]}"] span`);
+    trigger.textContent = opt ? opt.textContent : values[0];
+  } else {
+    trigger.textContent = `已选 ${values.length} 项`;
+  }
+}
+
+// 获取多选下拉选中的值
+function getMultiSelectValues(container) {
+  const values = [];
+  container.querySelectorAll('.multi-select-option input[type="checkbox"]:checked').forEach((cb) => {
+    values.push(cb.value);
+  });
+  return values;
+}
+
+// 关闭所有多选下拉（点击外部时）
+document.addEventListener('click', () => {
+  document.querySelectorAll('.multi-select.open').forEach((ms) => {
+    ms.classList.remove('open');
+  });
+});
 
 function closeRenkuanImportModal() {
   const modal = document.getElementById('renkuanImportModal');
@@ -583,12 +675,9 @@ function addRenkuanRow(btnEl) {
     customerOptionsHtml += `<option value="${cust.value}">${cust.label}</option>`;
   });
 
-  // 生成关联订单号多选选项
+  // 生成关联订单号多选下拉
   const allOrderNos = DB.getOrderNoOptions();
-  let orderOptionsHtml = '';
-  allOrderNos.forEach((orderNo) => {
-    orderOptionsHtml += `<option value="${orderNo}">${orderNo}</option>`;
-  });
+  const orderMultiSelectHtml = createMultiSelect(allOrderNos, [], '160px');
 
   tr.innerHTML = `
     <td>
@@ -615,9 +704,7 @@ function addRenkuanRow(btnEl) {
       </select>
     </td>
     <td>
-      <select multiple style="width: 160px; min-height: 60px; padding: 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
-        ${orderOptionsHtml || '<option value="">（暂无订单）</option>'}
-      </select>
+      ${orderMultiSelectHtml}
     </td>
     <td><input type="text" style="width: 100px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="备注"></td>
     <td style="text-align: center;"><button style="border: none; background: transparent; color: var(--danger); cursor: pointer; font-size: 16px; padding: 2px 6px;" onclick="removeRenkuanRow(this)" title="删除">✕</button></td>
@@ -657,12 +744,9 @@ function addRenkuanBlock() {
     customerOptionsHtml += `<option value="${cust.value}">${cust.label}</option>`;
   });
 
-  // 生成关联订单号多选选项
+  // 生成关联订单号多选下拉
   const allOrderNos = DB.getOrderNoOptions();
-  let orderOptionsHtml = '';
-  allOrderNos.forEach((orderNo) => {
-    orderOptionsHtml += `<option value="${orderNo}">${orderNo}</option>`;
-  });
+  const orderMultiSelectHtml = createMultiSelect(allOrderNos, [], '160px');
 
   const blockHtml = `
     <div class="renkuan-block" data-block-index="${newIndex}" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; background: #fafafa;">
@@ -719,9 +803,7 @@ function addRenkuanBlock() {
                 </select>
               </td>
               <td>
-                <select multiple style="width: 160px; min-height: 60px; padding: 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
-                  ${orderOptionsHtml || '<option value="">（暂无订单）</option>'}
-                </select>
+                ${orderMultiSelectHtml}
               </td>
               <td><input type="text" style="width: 100px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="备注"></td>
               <td style="text-align: center;"><button style="border: none; background: transparent; color: var(--danger); cursor: pointer; font-size: 16px; padding: 2px 6px;" onclick="removeRenkuanRow(this)" title="删除">✕</button></td>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>抖店认款 - 世宇智数管理系统</title>
-  <link rel="stylesheet" href="styles.css?v=20260908g">
+  <link rel="stylesheet" href="styles.css?v=20260908h">
 </head>
 <body style="overflow: hidden;">
   <div class="app">
@@ -807,23 +807,73 @@
                       </select>
                     </td>
                     <td>
-                      <select multiple style="width: 160px; min-height: 60px; padding: 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
-                        <option value="6925165121833041575">6925165121833041575</option>
-                        <option value="6925165121833041575-A">6925165121833041575-A</option>
-                        <option value="6925165121833041575-B">6925165121833041575-B</option>
-                        <option value="6925180932148788326">6925180932148788326</option>
-                        <option value="6925180932148788326-A">6925180932148788326-A</option>
-                        <option value="6925180932148788326-B">6925180932148788326-B</option>
-                        <option value="6925150126368325030">6925150126368325030</option>
-                        <option value="6925150126368325030-A">6925150126368325030-A</option>
-                        <option value="6925150126368325030-B">6925150126368325030-B</option>
-                        <option value="6925223516209053190">6925223516209053190</option>
-                        <option value="6925223516209053190-A">6925223516209053190-A</option>
-                        <option value="6925223516209053190-B">6925223516209053190-B</option>
-                        <option value="6951628017741076249">6951628017741076249</option>
-                        <option value="6951628017741076249-A">6951628017741076249-A</option>
-                        <option value="6951628017741076249-B">6951628017741076249-B</option>
-                      </select>
+                      <div class="multi-select" style="width: 160px;" onclick="event.stopPropagation()">
+                        <div class="multi-select-trigger" onclick="toggleMultiSelect(this)">
+                          <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><span class="placeholder">请选择</span></span>
+                        </div>
+                        <div class="multi-select-dropdown">
+                          <div class="multi-select-option" data-value="6925165121833041575" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6925165121833041575" onclick="event.stopPropagation()">
+                            <span>6925165121833041575</span>
+                          </div>
+                          <div class="multi-select-option" data-value="6925165121833041575-A" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6925165121833041575-A" onclick="event.stopPropagation()">
+                            <span>6925165121833041575-A</span>
+                          </div>
+                          <div class="multi-select-option" data-value="6925165121833041575-B" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6925165121833041575-B" onclick="event.stopPropagation()">
+                            <span>6925165121833041575-B</span>
+                          </div>
+                          <div class="multi-select-option" data-value="6925180932148788326" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6925180932148788326" onclick="event.stopPropagation()">
+                            <span>6925180932148788326</span>
+                          </div>
+                          <div class="multi-select-option" data-value="6925180932148788326-A" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6925180932148788326-A" onclick="event.stopPropagation()">
+                            <span>6925180932148788326-A</span>
+                          </div>
+                          <div class="multi-select-option" data-value="6925180932148788326-B" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6925180932148788326-B" onclick="event.stopPropagation()">
+                            <span>6925180932148788326-B</span>
+                          </div>
+                          <div class="multi-select-option" data-value="6925150126368325030" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6925150126368325030" onclick="event.stopPropagation()">
+                            <span>6925150126368325030</span>
+                          </div>
+                          <div class="multi-select-option" data-value="6925150126368325030-A" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6925150126368325030-A" onclick="event.stopPropagation()">
+                            <span>6925150126368325030-A</span>
+                          </div>
+                          <div class="multi-select-option" data-value="6925150126368325030-B" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6925150126368325030-B" onclick="event.stopPropagation()">
+                            <span>6925150126368325030-B</span>
+                          </div>
+                          <div class="multi-select-option" data-value="6925223516209053190" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6925223516209053190" onclick="event.stopPropagation()">
+                            <span>6925223516209053190</span>
+                          </div>
+                          <div class="multi-select-option" data-value="6925223516209053190-A" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6925223516209053190-A" onclick="event.stopPropagation()">
+                            <span>6925223516209053190-A</span>
+                          </div>
+                          <div class="multi-select-option" data-value="6925223516209053190-B" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6925223516209053190-B" onclick="event.stopPropagation()">
+                            <span>6925223516209053190-B</span>
+                          </div>
+                          <div class="multi-select-option" data-value="6951628017741076249" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6951628017741076249" onclick="event.stopPropagation()">
+                            <span>6951628017741076249</span>
+                          </div>
+                          <div class="multi-select-option" data-value="6951628017741076249-A" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6951628017741076249-A" onclick="event.stopPropagation()">
+                            <span>6951628017741076249-A</span>
+                          </div>
+                          <div class="multi-select-option" data-value="6951628017741076249-B" onclick="handleMultiSelectOptionClick(this)">
+                            <input type="checkbox" value="6951628017741076249-B" onclick="event.stopPropagation()">
+                            <span>6951628017741076249-B</span>
+                          </div>
+                        </div>
+                      </div>
                     </td>
                     <td><input type="text" style="width: 100px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="备注"></td>
                     <td style="text-align: center;"><button style="border: none; background: transparent; color: var(--danger); cursor: pointer; font-size: 16px; padding: 2px 6px;" onclick="removeRenkuanRow(this)" title="删除">✕</button></td>
@@ -922,8 +972,8 @@ https://fuwu.douyin.com/..."></textarea>
     </div>
   </div>
 
-  <script src="mock.js?v=20260908g"></script>
-  <script src="app.js?v=20260908g"></script>
+  <script src="mock.js?v=20260908h"></script>
+  <script src="app.js?v=20260908h"></script>
 
 
 
