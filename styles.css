@@ -756,6 +756,19 @@ table {
   line-height: 1.6;
 }
 
+/* 表头颜色分类 */
+.data-table thead th.th-green {
+  background-color: #e6f7e6;
+}
+
+.data-table thead th.th-orange {
+  background-color: #fff0e0;
+}
+
+.data-table thead th.th-blue {
+  background-color: #e0ecff;
+}
+
 /* 数字列右对齐 */
 .num-col {
   text-align: right;
