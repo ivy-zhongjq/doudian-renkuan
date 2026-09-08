@@ -291,7 +291,21 @@ function handleImportRenkuan() {
 }
 
 function handleImportInvoice() {
-  showToast('导入抖店开票数据功能', 'info');
+  const modal = document.getElementById('invoiceImportModal');
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeInvoiceImportModal() {
+  const modal = document.getElementById('invoiceImportModal');
+  modal.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function submitInvoiceImport() {
+  const linkInput = document.getElementById('invoiceLinkInput').value.trim();
+  closeInvoiceImportModal();
+  showToast('导入成功，开票状态已更新', 'success');
 }
 
 function handleEdit(orderNo) {
@@ -382,6 +396,9 @@ document.addEventListener('click', (e) => {
   if (e.target.id === 'remarkModal') {
     closeRemarkModal();
   }
+  if (e.target.id === 'invoiceImportModal') {
+    closeInvoiceImportModal();
+  }
 });
 
 // ===== ESC 键关闭弹窗 =====
@@ -389,6 +406,7 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeModal();
     closeRemarkModal();
+    closeInvoiceImportModal();
   }
 });
 
