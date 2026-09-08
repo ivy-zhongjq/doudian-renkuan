@@ -449,11 +449,20 @@ function handleBillUpload() {
 function createAutoBlock(index, custValue, custLabel, paymentType, data) {
   const container = document.getElementById('renkuanBlocksContainer');
 
-  // 生成关联订单号多选选项
-  const orderNos = data.orderNos || [];
+  // 生成客户名称下拉选项
+  let customerOptionsHtml = '<option value="">请选择</option>';
+  DB.customerOptions.forEach((cust) => {
+    const selected = cust.label === custLabel ? 'selected' : '';
+    customerOptionsHtml += `<option value="${cust.value}" ${selected}>${cust.label}</option>`;
+  });
+
+  // 生成关联订单号多选选项（全部可选，已匹配的选中）
+  const selectedOrderNos = data.orderNos || [];
+  const allOrderNos = DB.getOrderNoOptions();
   let orderOptionsHtml = '';
-  orderNos.forEach((orderNo) => {
-    orderOptionsHtml += `<option value="${orderNo}" selected>${orderNo}</option>`;
+  allOrderNos.forEach((orderNo) => {
+    const selected = selectedOrderNos.includes(orderNo) ? 'selected' : '';
+    orderOptionsHtml += `<option value="${orderNo}" ${selected}>${orderNo}</option>`;
   });
 
   const blockHtml = `
@@ -516,9 +525,13 @@ function createAutoBlock(index, custValue, custLabel, paymentType, data) {
               </td>
               <td><input type="number" value="${data.amount || ''}" style="width: 80px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; text-align: right;" placeholder="0.00" oninput="updateRenkuanTotal()"></td>
               <td><input type="month" value="2026-03" style="width: 110px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;"></td>
-              <td><input type="text" value="${custLabel || ''}" style="width: 120px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="客户名称"></td>
               <td>
-                <select multiple style="width: 150px; min-height: 60px; padding: 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
+                <select style="width: 130px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
+                  ${customerOptionsHtml}
+                </select>
+              </td>
+              <td>
+                <select multiple style="width: 160px; min-height: 60px; padding: 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
                   ${orderOptionsHtml || '<option value="">（暂无订单）</option>'}
                 </select>
               </td>
@@ -560,6 +573,20 @@ function addRenkuanRow(btnEl) {
   const block = btnEl.closest('.renkuan-block');
   const tbody = block.querySelector('.renkuan-detail-body');
   const tr = document.createElement('tr');
+
+  // 生成客户名称下拉选项
+  let customerOptionsHtml = '<option value="">请选择</option>';
+  DB.customerOptions.forEach((cust) => {
+    customerOptionsHtml += `<option value="${cust.value}">${cust.label}</option>`;
+  });
+
+  // 生成关联订单号多选选项
+  const allOrderNos = DB.getOrderNoOptions();
+  let orderOptionsHtml = '';
+  allOrderNos.forEach((orderNo) => {
+    orderOptionsHtml += `<option value="${orderNo}">${orderNo}</option>`;
+  });
+
   tr.innerHTML = `
     <td>
       <select style="width: 100%; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
@@ -579,10 +606,14 @@ function addRenkuanRow(btnEl) {
     </td>
     <td><input type="number" style="width: 80px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; text-align: right;" placeholder="0.00" oninput="updateRenkuanTotal()"></td>
     <td><input type="month" style="width: 110px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;"></td>
-    <td><input type="text" style="width: 120px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="客户名称"></td>
     <td>
-      <select multiple style="width: 150px; min-height: 60px; padding: 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
-        <option value="">（暂无订单）</option>
+      <select style="width: 130px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
+        ${customerOptionsHtml}
+      </select>
+    </td>
+    <td>
+      <select multiple style="width: 160px; min-height: 60px; padding: 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
+        ${orderOptionsHtml || '<option value="">（暂无订单）</option>'}
       </select>
     </td>
     <td><input type="text" style="width: 100px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="备注"></td>
@@ -616,6 +647,19 @@ function addRenkuanBlock() {
   const container = document.getElementById('renkuanBlocksContainer');
   const blockCount = container.children.length;
   const newIndex = blockCount + 1;
+
+  // 生成客户名称下拉选项
+  let customerOptionsHtml = '<option value="">请选择</option>';
+  DB.customerOptions.forEach((cust) => {
+    customerOptionsHtml += `<option value="${cust.value}">${cust.label}</option>`;
+  });
+
+  // 生成关联订单号多选选项
+  const allOrderNos = DB.getOrderNoOptions();
+  let orderOptionsHtml = '';
+  allOrderNos.forEach((orderNo) => {
+    orderOptionsHtml += `<option value="${orderNo}">${orderNo}</option>`;
+  });
 
   const blockHtml = `
     <div class="renkuan-block" data-block-index="${newIndex}" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; background: #fafafa;">
@@ -677,10 +721,14 @@ function addRenkuanBlock() {
               </td>
               <td><input type="number" style="width: 80px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; text-align: right;" placeholder="0.00" oninput="updateRenkuanTotal()"></td>
               <td><input type="month" style="width: 110px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;"></td>
-              <td><input type="text" style="width: 120px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="客户名称"></td>
               <td>
-                <select multiple style="width: 150px; min-height: 60px; padding: 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
-                  <option value="">（暂无订单）</option>
+                <select style="width: 130px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
+                  ${customerOptionsHtml}
+                </select>
+              </td>
+              <td>
+                <select multiple style="width: 160px; min-height: 60px; padding: 4px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
+                  ${orderOptionsHtml || '<option value="">（暂无订单）</option>'}
                 </select>
               </td>
               <td><input type="text" style="width: 100px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="备注"></td>

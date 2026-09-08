@@ -454,5 +454,24 @@ const DB = {
     isRecognized: ['全部', '已认款', '未认款'],
     douyinInvoice: ['全部', '已开票', '未开票'],
     ourInvoice: ['全部', '已开票', '部分开票', '未开票']
+  },
+
+  // 客户下拉选项
+  customerOptions: [
+    { value: 'CUST1383', label: '阜阳童悦娱乐有限公司' },
+    { value: 'CUST1001', label: '抖音零售客户' },
+    { value: 'CUST1002', label: '北京有竹居网络技术有限公司' },
+    { value: 'CUST1003', label: '北京字跳网络技术有限公司' }
+  ],
+
+  // 关联订单号下拉选项（从订单列表动态获取）
+  getOrderNoOptions() {
+    const orderNos = [];
+    this.orders.forEach((order) => {
+      orderNos.push(order.totalOrderNo);
+      orderNos.push(order.totalOrderNo + '-A');
+      orderNos.push(order.totalOrderNo + '-B');
+    });
+    return orderNos;
   }
 };
