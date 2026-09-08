@@ -382,6 +382,67 @@ const DB = {
     ]
   },
 
+  // 商品ID → 款项类型 映射
+  productIdMap: {
+    '3810497884416245870': '礼品',
+    '3831309487784984729': '卡片',
+    '3830163422838915417': '礼品',
+    '3830203585061322769': '礼品',
+    '38302084104090634608': '礼品'
+  },
+
+  // 模拟导入的抖店结算账单数据
+  mockBillData: [
+    {
+      settleTime: '2026-03-27 14:46',
+      orderNo: '6925165121833041575',
+      subOrderNo: '6925165121833041575',
+      settleAmount: 178.2,
+      settleNo: '已结算',
+      hasRefund: '否',
+      productId: '3810497884416245870',
+      orderTotal: 198,
+      platformSubsidy: 9,
+      douyinPaySubsidy: 1.5,
+      douyinMonthlySubsidy: 0,
+      userPaid: 187.5,
+      influencerCommission: 9.9,
+      totalExpenditure: 19.8
+    },
+    {
+      settleTime: '2026-03-27 14:46',
+      orderNo: '6925180932148788326',
+      subOrderNo: '6925180932148788326',
+      settleAmount: 178.2,
+      settleNo: '已结算',
+      hasRefund: '否',
+      productId: '3810497884416245870',
+      orderTotal: 198,
+      platformSubsidy: 0,
+      douyinPaySubsidy: 5,
+      douyinMonthlySubsidy: 0,
+      userPaid: 193,
+      influencerCommission: 9.9,
+      totalExpenditure: 19.8
+    },
+    {
+      settleTime: '2026-03-27 14:46',
+      orderNo: '6925150126368325030',
+      subOrderNo: '6925150126368325030',
+      settleAmount: 196.81,
+      settleNo: '已结算',
+      hasRefund: '否',
+      productId: '3831309487784984729',
+      orderTotal: 198,
+      platformSubsidy: 0,
+      douyinPaySubsidy: 0,
+      douyinMonthlySubsidy: 0,
+      userPaid: 198,
+      influencerCommission: 0,
+      totalExpenditure: 1.19
+    }
+  ],
+
   // 筛选选项
   filterOptions: {
     isSettled: ['全部', '已结清', '未结清'],
