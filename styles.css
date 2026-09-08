@@ -1100,17 +1100,12 @@ table {
   color: var(--text-tertiary);
 }
 .multi-select-dropdown {
-  position: absolute;
-  top: calc(100% + 2px);
-  left: 0;
-  right: 0;
   max-height: 200px;
   overflow-y: auto;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  z-index: 100;
   display: none;
 }
 .multi-select.open .multi-select-dropdown {

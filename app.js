@@ -595,7 +595,19 @@ function toggleMultiSelect(triggerEl) {
   document.querySelectorAll('.multi-select.open').forEach((ms) => {
     if (ms !== container) ms.classList.remove('open');
   });
+  const isOpening = !container.classList.contains('open');
   container.classList.toggle('open');
+
+  if (isOpening) {
+    // 动态计算下拉面板位置，避免被 overflow 容器遮挡
+    const dropdown = container.querySelector('.multi-select-dropdown');
+    const rect = triggerEl.getBoundingClientRect();
+    dropdown.style.position = 'fixed';
+    dropdown.style.top = (rect.bottom + 2) + 'px';
+    dropdown.style.left = rect.left + 'px';
+    dropdown.style.width = rect.width + 'px';
+    dropdown.style.zIndex = '9999';
+  }
 }
 
 // 点击多选下拉选项
@@ -638,6 +650,19 @@ function getMultiSelectValues(container) {
 
 // 关闭所有多选下拉（点击外部时）
 document.addEventListener('click', () => {
+  document.querySelectorAll('.multi-select.open').forEach((ms) => {
+    ms.classList.remove('open');
+  });
+});
+
+// 滚动或窗口大小变化时关闭所有多选下拉
+window.addEventListener('scroll', () => {
+  document.querySelectorAll('.multi-select.open').forEach((ms) => {
+    ms.classList.remove('open');
+  });
+}, true);
+
+window.addEventListener('resize', () => {
   document.querySelectorAll('.multi-select.open').forEach((ms) => {
     ms.classList.remove('open');
   });
