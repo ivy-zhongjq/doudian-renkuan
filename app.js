@@ -108,7 +108,6 @@ function renderOrderTable() {
         <td>${renderInvoiceStatus(order.douyinInvoice)}</td>
         <td>${renderSettleStatus(order.isSettled)}</td>
         <td><span class="remark-text">${order.remark}</span></td>
-        <td>${order.recognizer || '-'}</td>
         <td class="action-col">
           <button class="btn btn-text" onclick="handleEdit('${order.totalOrderNo}')">编辑</button>
         </td>

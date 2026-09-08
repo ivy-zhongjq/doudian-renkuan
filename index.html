@@ -188,7 +188,7 @@
               </select>
             </div>
             <div class="filter-item">
-              <label>本方开票</label>
+              <label>我方开票</label>
               <select id="filterOurInvoice">
                 <option value="">全部</option>
                 <option value="已开票">已开票</option>
@@ -243,16 +243,15 @@
                     <th class="num-col th-green">支付优惠<br>(字跳科技)</th>
                     <th class="num-col th-orange">达人佣金服务费<br>(扣除费用)</th>
                     <th class="num-col th-orange">平台佣金<br>(扣除费用)</th>
-                    <th class="num-col th-blue">达人佣金<br>(达人可提现)</th>
+                    <th class="num-col th-blue" style="font-weight: bold;">达人佣金<br>(达人可提现)</th>
                     <th class="num-col th-blue">结算金额<br>(抖店可提现)</th>
-                    <th class="num-col th-blue">已认款<br>(已减扣除费用)</th>
+                    <th class="num-col th-blue">已认款<br>(共提现金额)</th>
                     <th>交易时间</th>
                     <th>我方开票</th>
                     <th>抖店开票</th>
                     <th>是否已结清</th>
                     <th style="width: 126px; min-width: 126px;">备注</th>
-                    <th>认领人</th>
-                    <th class="action-col">操作</th>
+                    <th class="action-col">编辑</th>
                   </tr>
                 </thead>
                 <tbody id="orderTableBody">
@@ -277,7 +276,6 @@
         <td><span class="status-tag success">已开票</span></td>
         <td><span class="status-tag success">已结清</span></td>
         <td><span class="remark-text">平台补贴、支付优惠、达人佣金、平台佣金都有</span></td>
-        <td>-</td>
         <td class="action-col">
           <button class="btn btn-text" onclick="handleEdit('6925165121833041575')">编辑</button>
         </td>
@@ -304,7 +302,6 @@
         <td><span class="status-tag success">已开票</span></td>
         <td><span class="status-tag success">已结清</span></td>
         <td><span class="remark-text">只有支付优惠、达人佣金、平台佣金</span></td>
-        <td>-</td>
         <td class="action-col">
           <button class="btn btn-text" onclick="handleEdit('6925180932148788326')">编辑</button>
         </td>
@@ -331,7 +328,6 @@
         <td><span class="status-tag success">已开票</span></td>
         <td><span class="status-tag success">已结清</span></td>
         <td><span class="remark-text">（此单只收了平台佣金）</span></td>
-        <td>-</td>
         <td class="action-col">
           <button class="btn btn-text" onclick="handleEdit('6925150126368325030')">编辑</button>
         </td>
@@ -358,7 +354,6 @@
         <td><span class="status-tag success">已开票</span></td>
         <td><span class="status-tag success">已结清</span></td>
         <td><span class="remark-text">只有平台补贴（此单支出合计包含平台服务费和站外推广费，都需平台开票）</span></td>
-        <td>-</td>
         <td class="action-col">
           <button class="btn btn-text" onclick="handleEdit('6925223516209053190')">编辑</button>
         </td>
@@ -385,7 +380,6 @@
         <td><span class="status-tag success">已开票</span></td>
         <td><span class="status-tag success">已结清</span></td>
         <td><span class="remark-text">只有达人佣金、平台佣金</span></td>
-        <td>-</td>
         <td class="action-col">
           <button class="btn btn-text" onclick="handleEdit('6951628017741076249')">编辑</button>
         </td>
@@ -624,6 +618,11 @@
 
   <script src="mock.js"></script>
   <script src="app.js"></script>
+
+
+
+
+
 
 
 
