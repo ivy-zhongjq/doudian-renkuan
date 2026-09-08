@@ -88,7 +88,27 @@ function renderOrderTable() {
   const tbody = document.getElementById('orderTableBody');
   let html = '';
 
-  DB.orders.forEach((order) => {
+  // 获取筛选条件
+  const fundMonth = document.getElementById('filterFundMonth')?.value || '';
+  const settled = document.getElementById('filterSettled')?.value || '';
+  const recognized = document.getElementById('filterRecognized')?.value || '';
+  const douyinInvoice = document.getElementById('filterDouyinInvoice')?.value || '';
+  const ourInvoice = document.getElementById('filterOurInvoice')?.value || '';
+  const dateStart = document.getElementById('filterDateStart')?.value || '';
+  const dateEnd = document.getElementById('filterDateEnd')?.value || '';
+
+  // 过滤数据
+  const filteredOrders = DB.orders.filter((order) => {
+    if (fundMonth && order.fundMonth !== fundMonth) return false;
+    if (settled && order.isSettled !== settled) return false;
+    if (douyinInvoice && order.douyinInvoice !== douyinInvoice) return false;
+    if (ourInvoice && order.ourInvoice !== ourInvoice) return false;
+    if (dateStart && order.recognizeTime < dateStart) return false;
+    if (dateEnd && order.recognizeTime > dateEnd) return false;
+    return true;
+  });
+
+  filteredOrders.forEach((order) => {
     html += `
       <tr>
         <td>
@@ -116,7 +136,19 @@ function renderOrderTable() {
   });
 
   tbody.innerHTML = html;
-  document.getElementById('totalCount').textContent = DB.orders.length;
+  document.getElementById('totalCount').textContent = filteredOrders.length;
+}
+
+// ===== 筛选事件绑定 =====
+function bindFilterEvents() {
+  const filterIds = ['filterFundMonth', 'filterSettled', 'filterRecognized', 'filterDouyinInvoice', 'filterOurInvoice', 'filterDateStart', 'filterDateEnd'];
+  filterIds.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('change', renderOrderTable);
+      el.addEventListener('input', renderOrderTable);
+    }
+  });
 }
 
 // 格式化订单号 - 每6个字符换行
@@ -816,5 +848,6 @@ document.addEventListener('keydown', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
   renderSidebar();
   renderTopTabs();
+  bindFilterEvents();
   renderOrderTable();
 });
