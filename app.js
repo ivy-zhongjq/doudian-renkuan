@@ -233,6 +233,7 @@ function openOrderDetail(totalOrderNo) {
         <td>${item.customerName}</td>
         <td>${renderDetailInvoiceStatus(item.invoiceStatus)}</td>
         <td class="num-col">${item.invoiceAmount}</td>
+        <td>${item.remark || '-'}</td>
         <td>${item.recognizeTime}</td>
         <td>${item.recognizer}</td>
       </tr>

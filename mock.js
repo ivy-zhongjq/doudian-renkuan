@@ -129,6 +129,7 @@ const DB = {
         customerName: '抖音零售客户',
         invoiceStatus: '已开票',
         invoiceAmount: 187.5,
+        remark: '用户实付',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       },
@@ -142,6 +143,7 @@ const DB = {
         customerName: '北京有竹居网络技术有限公司',
         invoiceStatus: '已开票',
         invoiceAmount: 9,
+        remark: '平台补贴',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       },
@@ -155,6 +157,7 @@ const DB = {
         customerName: '北京字跳网络技术有限公司',
         invoiceStatus: '已开票',
         invoiceAmount: 1.5,
+        remark: '支付优惠',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       },
@@ -168,6 +171,7 @@ const DB = {
         customerName: '抖音零售客户',
         invoiceStatus: '无需开票',
         invoiceAmount: '-',
+        remark: '达人佣金',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       },
@@ -181,6 +185,7 @@ const DB = {
         customerName: '-',
         invoiceStatus: '抖店已开票',
         invoiceAmount: 9.9,
+        remark: '平台佣金',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       }
@@ -196,6 +201,7 @@ const DB = {
         customerName: '抖音零售客户',
         invoiceStatus: '已开票',
         invoiceAmount: 193,
+        remark: '用户实付',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       },
@@ -209,6 +215,7 @@ const DB = {
         customerName: '北京字跳网络技术有限公司',
         invoiceStatus: '待开票',
         invoiceAmount: '-',
+        remark: '支付优惠',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       },
@@ -222,6 +229,7 @@ const DB = {
         customerName: '抖音零售客户',
         invoiceStatus: '无需开票',
         invoiceAmount: '-',
+        remark: '达人佣金',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       },
@@ -235,6 +243,7 @@ const DB = {
         customerName: '-',
         invoiceStatus: '抖店已开票',
         invoiceAmount: 9.9,
+        remark: '平台佣金',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       }
@@ -250,6 +259,7 @@ const DB = {
         customerName: '抖音零售客户',
         invoiceStatus: '已开票',
         invoiceAmount: 198,
+        remark: '用户实付',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       },
@@ -263,6 +273,7 @@ const DB = {
         customerName: '-',
         invoiceStatus: '抖店已开票',
         invoiceAmount: 1.19,
+        remark: '平台佣金',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       }
@@ -278,6 +289,7 @@ const DB = {
         customerName: '抖音零售客户',
         invoiceStatus: '已开票',
         invoiceAmount: 166.83,
+        remark: '用户实付',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       },
@@ -291,6 +303,7 @@ const DB = {
         customerName: '北京字跳网络技术有限公司',
         invoiceStatus: '已开票',
         invoiceAmount: 31.17,
+        remark: '平台补贴',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       },
@@ -304,6 +317,7 @@ const DB = {
         customerName: '-',
         invoiceStatus: '抖店已开票',
         invoiceAmount: 19.8,
+        remark: '平台佣金',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       }
@@ -319,6 +333,7 @@ const DB = {
         customerName: '抖音零售客户',
         invoiceStatus: '已开票',
         invoiceAmount: 198,
+        remark: '用户实付',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       },
@@ -332,6 +347,7 @@ const DB = {
         customerName: '抖音零售客户',
         invoiceStatus: '无需开票',
         invoiceAmount: '-',
+        remark: '达人佣金',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       },
@@ -345,6 +361,7 @@ const DB = {
         customerName: '-',
         invoiceStatus: '抖店已开票',
         invoiceAmount: 9.9,
+        remark: '平台佣金',
         recognizeTime: '2026-09-01',
         recognizer: '饶子杰'
       }
