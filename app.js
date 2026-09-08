@@ -349,28 +349,24 @@ function closeRenkuanImportModal() {
   document.body.style.overflow = '';
 }
 
-function updatePayerAmount() {
-  const select = document.getElementById('payerAccount');
-  const display = document.getElementById('payerAmountDisplay');
-  const valueEl = document.getElementById('payerAmountValue');
-  const totalEl = document.getElementById('renkuanTotal');
-  const availableEl = document.getElementById('renkuanAvailable');
+function updatePayerAmount(selectEl) {
+  const block = selectEl.closest('.renkuan-block');
+  const display = block.querySelector('.payer-amount-display');
+  const valueEl = block.querySelector('.payer-amount-value');
 
-  if (select.value) {
-    const amount = select.value.split('——')[1];
+  if (selectEl.value) {
+    const amount = selectEl.value.split('——')[1];
     valueEl.textContent = '¥' + amount;
-    totalEl.textContent = amount;
-    availableEl.textContent = amount;
     display.style.display = 'block';
   } else {
     display.style.display = 'none';
-    totalEl.textContent = '0';
-    availableEl.textContent = '0';
   }
+  updateRenkuanSummary();
 }
 
-function addRenkuanRow() {
-  const tbody = document.getElementById('renkuanDetailBody');
+function addRenkuanRow(btnEl) {
+  const block = btnEl.closest('.renkuan-block');
+  const tbody = block.querySelector('.renkuan-detail-body');
   const tr = document.createElement('tr');
   tr.innerHTML = `
     <td>
@@ -399,7 +395,7 @@ function addRenkuanRow() {
 }
 
 function removeRenkuanRow(btn) {
-  const tbody = document.getElementById('renkuanDetailBody');
+  const tbody = btn.closest('tbody');
   if (tbody.children.length > 1) {
     btn.closest('tr').remove();
     updateRenkuanTotal();
@@ -407,13 +403,110 @@ function removeRenkuanRow(btn) {
 }
 
 function updateRenkuanTotal() {
-  const tbody = document.getElementById('renkuanDetailBody');
-  let total = 0;
-  tbody.querySelectorAll('input[type="number"]').forEach(input => {
+  updateRenkuanSummary();
+}
+
+function updateRenkuanSummary() {
+  let inputTotal = 0;
+  document.querySelectorAll('#renkuanBlocksContainer input[type="number"]').forEach(input => {
     const val = parseFloat(input.value) || 0;
-    total += val;
+    inputTotal += val;
   });
-  document.getElementById('renkuanInputTotal').textContent = total.toFixed(2);
+  document.getElementById('renkuanInputTotal').textContent = inputTotal.toFixed(2);
+}
+
+function addRenkuanBlock() {
+  const container = document.getElementById('renkuanBlocksContainer');
+  const blockCount = container.children.length;
+  const newIndex = blockCount + 1;
+
+  const blockHtml = `
+    <div class="renkuan-block" data-block-index="${newIndex}" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; background: #fafafa;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+        <span style="font-size: 13px; font-weight: 600; color: var(--text-primary);">认款板块 ${newIndex}</span>
+        <button class="btn btn-text" style="color: var(--danger); font-size: 12px; padding: 2px 8px;" onclick="removeRenkuanBlock(this)" title="删除板块">✕ 删除板块</button>
+      </div>
+      <div class="filter-item" style="gap: 12px; margin-bottom: 12px;">
+        <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">付款方户名</label>
+        <select class="payer-account" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background-color: #fff; font-size: 13px; color: var(--text-primary); min-width: 200px;" onchange="updatePayerAmount(this)">
+          <option value="">请选择</option>
+          <option value="杭州银行-平台商户交易资金待清算账户（抖音）——2000">杭州银行-平台商户交易资金待清算账户（抖音）——2000</option>
+          <option value="江苏银行-平台交易资金专户（抖音）——3500">江苏银行-平台交易资金专户（抖音）——3500</option>
+        </select>
+      </div>
+      <div class="payer-amount-display" style="margin-top: -4px; margin-bottom: 12px; padding: 8px 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-sm); font-size: 13px; color: #15803d; display: none;">
+        可认款金额：<span class="payer-amount-value" style="font-weight: 600;">-</span>
+      </div>
+      <div class="filter-item" style="gap: 12px; margin-bottom: 12px;">
+        <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">K3客户 <span style="color: var(--danger);">*</span></label>
+        <select style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background-color: #fff; font-size: 13px; color: var(--text-primary); min-width: 200px;">
+          <option value="">请选择</option>
+          <option value="CUST1383">CUST1383 —— 阜阳童悦娱乐有限公司</option>
+          <option value="CUST1001">CUST1001 —— 抖音零售客户</option>
+          <option value="CUST1002">CUST1002 —— 北京有竹居网络技术有限公司</option>
+          <option value="CUST1003">CUST1003 —— 北京字跳网络技术有限公司</option>
+        </select>
+      </div>
+      <div class="table-wrap" style="border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: auto;">
+        <table class="data-table" style="font-size: 12px;">
+          <thead>
+            <tr>
+              <th>款项类型 <span style="color: var(--danger);">*</span></th>
+              <th class="num-col">认领金额 <span style="color: var(--danger);">*</span></th>
+              <th>款项月份</th>
+              <th>客户名称</th>
+              <th>关联订单号</th>
+              <th>款项备注</th>
+              <th style="width: 50px;">操作</th>
+            </tr>
+          </thead>
+          <tbody class="renkuan-detail-body">
+            <tr>
+              <td>
+                <select style="width: 100%; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
+                  <option value="">请选择</option>
+                  <option value="机台">机台</option>
+                  <option value="配件">配件</option>
+                  <option value="分成">分成</option>
+                  <option value="卡片">卡片</option>
+                  <option value="礼品">礼品</option>
+                  <option value="其他">其他</option>
+                  <option value="押金">押金</option>
+                  <option value="信息服务">信息服务</option>
+                  <option value="游艺安装">游艺安装</option>
+                  <option value="游艺设计">游艺设计</option>
+                </select>
+              </td>
+              <td><input type="number" style="width: 80px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; text-align: right;" placeholder="0.00" oninput="updateRenkuanTotal()"></td>
+              <td><input type="month" style="width: 110px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;"></td>
+              <td><input type="text" style="width: 120px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="客户名称"></td>
+              <td><input type="text" style="width: 120px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="订单号"></td>
+              <td><input type="text" style="width: 100px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="备注"></td>
+              <td style="text-align: center;"><button style="border: none; background: transparent; color: var(--danger); cursor: pointer; font-size: 16px; padding: 2px 6px;" onclick="removeRenkuanRow(this)" title="删除">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button class="btn btn-text" style="margin-top: 8px; color: var(--success); font-size: 13px;" onclick="addRenkuanRow(this)">+ 追加</button>
+    </div>
+  `;
+
+  container.insertAdjacentHTML('beforeend', blockHtml);
+}
+
+function removeRenkuanBlock(btn) {
+  const container = document.getElementById('renkuanBlocksContainer');
+  if (container.children.length > 1) {
+    btn.closest('.renkuan-block').remove();
+    // Renumber blocks
+    container.querySelectorAll('.renkuan-block').forEach((block, idx) => {
+      block.dataset.blockIndex = idx + 1;
+      block.querySelector('span').textContent = `认款板块 ${idx + 1}`;
+      const deleteBtn = block.querySelector('button[onclick*="removeRenkuanBlock"]');
+      deleteBtn.style.display = idx === 0 ? 'none' : '';
+    });
+    updateRenkuanSummary();
+  }
 }
 
 function submitRenkuanImport() {

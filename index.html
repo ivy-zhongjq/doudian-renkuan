@@ -410,7 +410,7 @@
   </div>
 
   <!-- ===== 订单详情弹窗 ===== -->
-  <div class="modal-mask" id="orderDetailModal">
+  <div class="modal-mask show" id="orderDetailModal">
     <div class="modal">
       <div class="modal-header">
         <div class="modal-title" id="modalTitle">订单详情 - 6925165121833041575</div>
@@ -441,12 +441,12 @@
         <span class="summary-value">¥8.91</span>
       </div>
       <div class="summary-item">
-        <span class="summary-label">平台佣金</span>
-        <span class="summary-value">¥9.9</span>
-      </div>
-      <div class="summary-item">
         <span class="summary-label">达人佣金服务费</span>
         <span class="summary-value">¥0.99</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label">平台佣金</span>
+        <span class="summary-value">¥9.9</span>
       </div>
       <div class="summary-item">
         <span class="summary-label">已认款</span>
@@ -574,7 +574,7 @@
         <td><span class="status-tag info">抖店已开票</span></td>
         <td class="num-col">9.9</td>
         <td>平台佣金</td>
-        <td>-</td>
+        <td>2026-03-27</td>
         <td>饶子杰</td>
       </tr>
     
@@ -592,7 +592,7 @@
         <td><span class="status-tag info">抖店已开票</span></td>
         <td class="num-col">0.99</td>
         <td>达人佣金服务费</td>
-        <td>-</td>
+        <td>2026-03-27</td>
         <td>饶子杰</td>
       </tr>
     </tbody>
@@ -716,7 +716,7 @@
             <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-size: 12px; font-weight: 600;">0</span>
             导入抖店结算账单认款
           </div>
-          <div style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 24px 16px; text-align: center; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
+          <div style="border-color: var(--border); border-top-style: ; border-top-width: ; border-right-style: ; border-right-width: ; border-bottom-style: ; border-bottom-width: ; border-left-style: ; border-left-width: ; border-image-source: ; border-image-slice: ; border-image-width: ; border-image-outset: ; border-image-repeat: ; border-radius: var(--radius-md); padding: 24px 16px; text-align: center; cursor: pointer; transition: 0.2s; background: transparent;" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" style="width: 32px; height: 32px; margin-bottom: 8px;">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
               <polyline points="17 8 12 3 7 8"></polyline>
@@ -855,7 +855,7 @@
             <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-size: 12px; font-weight: 600;">1</span>
             关联订单导入
           </div>
-          <div style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 24px 16px; text-align: center; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
+          <div style="border-color: var(--border); border-top-style: ; border-top-width: ; border-right-style: ; border-right-width: ; border-bottom-style: ; border-bottom-width: ; border-left-style: ; border-left-width: ; border-image-source: ; border-image-slice: ; border-image-width: ; border-image-outset: ; border-image-repeat: ; border-radius: var(--radius-md); padding: 24px 16px; text-align: center; cursor: pointer; transition: 0.2s; background: transparent;" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" style="width: 32px; height: 32px; margin-bottom: 8px;">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
               <polyline points="17 8 12 3 7 8"></polyline>
@@ -899,6 +899,7 @@ https://fuwu.douyin.com/..."></textarea>
 
   <script src="mock.js"></script>
   <script src="app.js"></script>
+
 
 
 
