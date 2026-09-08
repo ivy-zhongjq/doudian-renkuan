@@ -287,7 +287,87 @@ function renderDetailInvoiceStatus(status) {
 
 // ===== 操作按钮处理 =====
 function handleImportRenkuan() {
-  showToast('导入认款功能', 'info');
+  const modal = document.getElementById('renkuanImportModal');
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeRenkuanImportModal() {
+  const modal = document.getElementById('renkuanImportModal');
+  modal.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function updatePayerAmount() {
+  const select = document.getElementById('payerAccount');
+  const display = document.getElementById('payerAmountDisplay');
+  const valueEl = document.getElementById('payerAmountValue');
+  const totalEl = document.getElementById('renkuanTotal');
+  const availableEl = document.getElementById('renkuanAvailable');
+
+  if (select.value) {
+    const amount = select.value.split('——')[1];
+    valueEl.textContent = '¥' + amount;
+    totalEl.textContent = amount;
+    availableEl.textContent = amount;
+    display.style.display = 'block';
+  } else {
+    display.style.display = 'none';
+    totalEl.textContent = '0';
+    availableEl.textContent = '0';
+  }
+}
+
+function addRenkuanRow() {
+  const tbody = document.getElementById('renkuanDetailBody');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>
+      <select style="width: 100%; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;">
+        <option value="">请选择</option>
+        <option value="机台">机台</option>
+        <option value="配件">配件</option>
+        <option value="分成">分成</option>
+        <option value="卡片">卡片</option>
+        <option value="礼品">礼品</option>
+        <option value="其他">其他</option>
+        <option value="押金">押金</option>
+        <option value="信息服务">信息服务</option>
+        <option value="游艺安装">游艺安装</option>
+        <option value="游艺设计">游艺设计</option>
+      </select>
+    </td>
+    <td><input type="number" style="width: 80px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; text-align: right;" placeholder="0.00" oninput="updateRenkuanTotal()"></td>
+    <td><input type="month" style="width: 110px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;"></td>
+    <td><input type="text" style="width: 120px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="客户名称"></td>
+    <td><input type="text" style="width: 120px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="订单号"></td>
+    <td><input type="text" style="width: 100px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px;" placeholder="备注"></td>
+    <td style="text-align: center;"><button style="border: none; background: transparent; color: var(--danger); cursor: pointer; font-size: 16px; padding: 2px 6px;" onclick="removeRenkuanRow(this)" title="删除">✕</button></td>
+  `;
+  tbody.appendChild(tr);
+}
+
+function removeRenkuanRow(btn) {
+  const tbody = document.getElementById('renkuanDetailBody');
+  if (tbody.children.length > 1) {
+    btn.closest('tr').remove();
+    updateRenkuanTotal();
+  }
+}
+
+function updateRenkuanTotal() {
+  const tbody = document.getElementById('renkuanDetailBody');
+  let total = 0;
+  tbody.querySelectorAll('input[type="number"]').forEach(input => {
+    const val = parseFloat(input.value) || 0;
+    total += val;
+  });
+  document.getElementById('renkuanInputTotal').textContent = total.toFixed(2);
+}
+
+function submitRenkuanImport() {
+  closeRenkuanImportModal();
+  showToast('认款导入成功', 'success');
 }
 
 function handleImportInvoice() {
@@ -396,6 +476,9 @@ document.addEventListener('click', (e) => {
   if (e.target.id === 'remarkModal') {
     closeRemarkModal();
   }
+  if (e.target.id === 'renkuanImportModal') {
+    closeRenkuanImportModal();
+  }
   if (e.target.id === 'invoiceImportModal') {
     closeInvoiceImportModal();
   }
@@ -407,6 +490,7 @@ document.addEventListener('keydown', (e) => {
     closeModal();
     closeRemarkModal();
     closeInvoiceImportModal();
+    closeRenkuanImportModal();
   }
 });
 
