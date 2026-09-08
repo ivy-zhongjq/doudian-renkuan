@@ -102,7 +102,7 @@ function renderOrderTable() {
         <td class="num-col">${order.platformCommission}</td>
         <td class="num-col">${(order.influencerCommission - order.influencerServiceFee).toFixed(2)}</td>
         <td class="num-col">${order.settlementAmount}</td>
-        <td class="num-col">${order.recognizedAmount}</td>
+        <td class="num-col"><span class="order-link" onclick="openRecognizedDetail('${order.totalOrderNo}')">${order.recognizedAmount}</span></td>
         <td>${order.recognizeTime}</td>
         <td>${renderInvoiceStatus(order.ourInvoice)}</td>
         <td>${renderInvoiceStatus(order.douyinInvoice)}</td>
@@ -283,6 +283,57 @@ function renderDetailInvoiceStatus(status) {
     return '<span class="status-tag warning">未开票</span>';
   }
   return status || '-';
+}
+
+// ===== 已认款明细弹窗 =====
+function openRecognizedDetail(totalOrderNo) {
+  const order = DB.orders.find(o => o.totalOrderNo === totalOrderNo);
+  if (!order) return;
+
+  document.getElementById('recognizedDetailTitle').textContent = `已认款明细 - 交易流水号: ${totalOrderNo}`;
+
+  const tbody = document.getElementById('recognizedDetailBody');
+
+  // 加载提示
+  tbody.innerHTML = `<tr><td colspan="12" style="text-align: center; padding: 24px; color: var(--text-tertiary);">正在努力地加载数据中，请稍候……</td></tr>`;
+
+  const modal = document.getElementById('recognizedDetailModal');
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+
+  // 模拟加载延迟后填充数据
+  setTimeout(() => {
+    const details = DB.orderDetails[totalOrderNo] || [];
+    let html = '';
+    details.forEach((item) => {
+      const payerName = item.remark === '平台佣金' || item.remark === '达人佣金服务费'
+        ? '杭州银行-平台商户交易资金待清算账户（抖音）'
+        : '江苏银行-平台交易资金专户（抖音）';
+      html += `
+        <tr>
+          <td>2026-03-27</td>
+          <td>${item.relatedOrderNo}</td>
+          <td>${payerName}</td>
+          <td>${renderRecognizeStatus(item.recognizeStatus)}</td>
+          <td class="num-col">${item.recognizedAmount}</td>
+          <td>${item.customerName}</td>
+          <td>${item.fundCategory}</td>
+          <td>${item.remark === '平台佣金' ? 'SYAA-20260327-001' : '-'}</td>
+          <td>${item.fundMonth}</td>
+          <td>${item.recognizeTime}</td>
+          <td>${item.recognizer}</td>
+          <td>财务部</td>
+        </tr>
+      `;
+    });
+    tbody.innerHTML = html || `<tr><td colspan="12" style="text-align: center; padding: 24px; color: var(--text-tertiary);">暂无数据</td></tr>`;
+  }, 800);
+}
+
+function closeRecognizedDetailModal() {
+  const modal = document.getElementById('recognizedDetailModal');
+  modal.classList.remove('show');
+  document.body.style.overflow = '';
 }
 
 // ===== 操作按钮处理 =====
@@ -473,6 +524,9 @@ document.addEventListener('click', (e) => {
   if (e.target.id === 'orderDetailModal') {
     closeModal();
   }
+  if (e.target.id === 'recognizedDetailModal') {
+    closeRecognizedDetailModal();
+  }
   if (e.target.id === 'remarkModal') {
     closeRemarkModal();
   }
@@ -488,6 +542,7 @@ document.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeModal();
+    closeRecognizedDetailModal();
     closeRemarkModal();
     closeInvoiceImportModal();
     closeRenkuanImportModal();
