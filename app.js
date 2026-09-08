@@ -98,9 +98,9 @@ function renderOrderTable() {
         <td class="num-col">${order.userPaid}</td>
         <td class="num-col">${order.platformSubsidy}</td>
         <td class="num-col">${order.paymentDiscount}</td>
-        <td class="num-col">${order.influencerCommission}</td>
         <td class="num-col">${order.influencerServiceFee}</td>
         <td class="num-col">${order.platformCommission}</td>
+        <td class="num-col">${(order.influencerCommission - order.influencerServiceFee).toFixed(2)}</td>
         <td class="num-col">${order.settlementAmount}</td>
         <td class="num-col">${order.recognizedAmount}</td>
         <td>${order.recognizeTime}</td>
@@ -181,7 +181,7 @@ function openOrderDetail(totalOrderNo) {
       </div>
       <div class="summary-item">
         <span class="summary-label">达人佣金</span>
-        <span class="summary-value">¥${order.influencerCommission}</span>
+        <span class="summary-value">¥${(order.influencerCommission - order.influencerServiceFee).toFixed(2)}</span>
       </div>
       <div class="summary-item">
         <span class="summary-label">达人佣金服务费</span>

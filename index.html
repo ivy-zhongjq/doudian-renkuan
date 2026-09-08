@@ -6,7 +6,7 @@
   <title>抖店认款 - 世宇智数管理系统</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body style="overflow: hidden;">
+<body>
   <div class="app">
     <!-- ===== 侧边栏 ===== -->
     <aside class="sidebar">
@@ -233,7 +233,7 @@
         <div class="card">
           <div class="card-body">
             <div class="table-wrap">
-              <table class="data-table" id="orderTable">
+              <table class="data-table" id="orderTable" style="">
                 <thead>
                   <tr>
                     <th>总订单号</th>
@@ -241,11 +241,11 @@
                     <th class="num-col" style="width: 75px; min-width: 75px;">用户实付<br>(抖店零售)</th>
                     <th class="num-col" style="width: 70px; min-width: 70px;">平台补贴<br>(有竹居)</th>
                     <th class="num-col">支付优惠<br>(字跳科技)</th>
-                    <th class="num-col">达人佣金<br>(世宇)</th>
-                    <th class="num-col">达人佣金服务费<br>(抖音开票)</th>
-                    <th class="num-col">平台佣金<br>(抖店开票)</th>
-                    <th class="num-col">结算金额</th>
-                    <th class="num-col">已认款</th>
+                    <th class="num-col">达人佣金服务费<br>(扣除费用)</th>
+                    <th class="num-col">平台佣金<br>(扣除费用)</th>
+                    <th class="num-col">达人佣金<br>(达人可提现)</th>
+                    <th class="num-col">结算金额<br>(抖店可提现)</th>
+                    <th class="num-col">已认款<br>(已减扣除费用)</th>
                     <th>交易时间</th>
                     <th>我方开票</th>
                     <th>抖店开票</th>
@@ -267,9 +267,9 @@
         <td class="num-col">187.5</td>
         <td class="num-col">9</td>
         <td class="num-col">1.5</td>
-        <td class="num-col">9.9</td>
         <td class="num-col">0.99</td>
         <td class="num-col">9.9</td>
+        <td class="num-col">8.91</td>
         <td class="num-col">178.2</td>
         <td class="num-col">187.11</td>
         <td>2026-09-01</td>
@@ -294,9 +294,9 @@
         <td class="num-col">193</td>
         <td class="num-col">0</td>
         <td class="num-col">5</td>
-        <td class="num-col">9.9</td>
         <td class="num-col">0.99</td>
         <td class="num-col">9.9</td>
+        <td class="num-col">8.91</td>
         <td class="num-col">178.2</td>
         <td class="num-col">187.11</td>
         <td>2026-09-01</td>
@@ -322,8 +322,8 @@
         <td class="num-col">0</td>
         <td class="num-col">0</td>
         <td class="num-col">0</td>
-        <td class="num-col">0</td>
         <td class="num-col">1.19</td>
+        <td class="num-col">0.00</td>
         <td class="num-col">196.81</td>
         <td class="num-col">196.81</td>
         <td>2026-09-01</td>
@@ -349,8 +349,8 @@
         <td class="num-col">31.17</td>
         <td class="num-col">0</td>
         <td class="num-col">0</td>
-        <td class="num-col">0</td>
         <td class="num-col">19.8</td>
+        <td class="num-col">0.00</td>
         <td class="num-col">178.2</td>
         <td class="num-col">178.2</td>
         <td>2026-09-01</td>
@@ -375,9 +375,9 @@
         <td class="num-col">198</td>
         <td class="num-col">0</td>
         <td class="num-col">0</td>
-        <td class="num-col">9.9</td>
         <td class="num-col">0.99</td>
         <td class="num-col">9.9</td>
+        <td class="num-col">8.91</td>
         <td class="num-col">178.2</td>
         <td class="num-col">187.11</td>
         <td>2026-09-01</td>
@@ -444,7 +444,7 @@
       </div>
       <div class="summary-item">
         <span class="summary-label">达人佣金</span>
-        <span class="summary-value">¥9.9</span>
+        <span class="summary-value">¥8.91</span>
       </div>
       <div class="summary-item">
         <span class="summary-label">达人佣金服务费</span>
@@ -494,7 +494,96 @@
               </tr>
             </thead>
             <tbody id="detailTableBody">
-            </tbody>
+      <tr>
+        <td>692516
+512183
+304157
+5</td>
+        <td class="num-col">187.5</td>
+        <td><span class="status-tag success">已认款</span></td>
+        <td class="num-col">167.7</td>
+        <td><span class="category-text">礼品</span></td>
+        <td>2026-04</td>
+        <td>抖音零售客户</td>
+        <td><span class="status-tag success">已开票</span></td>
+        <td class="num-col">187.5</td>
+        <td>用户实付</td>
+        <td>2026-09-01</td>
+        <td>饶子杰</td>
+      </tr>
+    
+      <tr>
+        <td>692516
+512183
+304157
+5-A</td>
+        <td class="num-col">9</td>
+        <td><span class="status-tag success">已认款</span></td>
+        <td class="num-col">9</td>
+        <td><span class="category-text">信息服务费</span></td>
+        <td>2026-04</td>
+        <td>北京有竹居网络技术有限公司</td>
+        <td><span class="status-tag success">已开票</span></td>
+        <td class="num-col">9</td>
+        <td>平台补贴</td>
+        <td>2026-09-01</td>
+        <td>饶子杰</td>
+      </tr>
+    
+      <tr>
+        <td>692516
+512183
+304157
+5-B</td>
+        <td class="num-col">1.5</td>
+        <td><span class="status-tag success">已认款</span></td>
+        <td class="num-col">1.5</td>
+        <td><span class="category-text">信息服务费</span></td>
+        <td>2026-04</td>
+        <td>北京字跳网络技术有限公司</td>
+        <td><span class="status-tag success">已开票</span></td>
+        <td class="num-col">1.5</td>
+        <td>支付优惠</td>
+        <td>2026-09-01</td>
+        <td>饶子杰</td>
+      </tr>
+    
+      <tr>
+        <td>692516
+512183
+304157
+5</td>
+        <td class="num-col">8.91</td>
+        <td><span class="status-tag success">已认款</span></td>
+        <td class="num-col">8.91</td>
+        <td><span class="category-text">信息服务费</span></td>
+        <td>2026-04</td>
+        <td>抖音零售客户</td>
+        <td><span class="status-tag gray">无需开票</span></td>
+        <td class="num-col">-</td>
+        <td>达人佣金</td>
+        <td>2026-09-01</td>
+        <td>饶子杰</td>
+      </tr>
+    
+      <tr>
+        <td>692516
+512183
+304157
+5</td>
+        <td class="num-col">9.9</td>
+        <td>-</td>
+        <td class="num-col">-</td>
+        <td><span class="category-text">-</span></td>
+        <td>2026-04</td>
+        <td>-</td>
+        <td><span class="status-tag info">抖店已开票</span></td>
+        <td class="num-col">9.9</td>
+        <td>平台佣金</td>
+        <td>2026-09-01</td>
+        <td>饶子杰</td>
+      </tr>
+    </tbody>
           </table>
         </div>
       </div>
@@ -535,6 +624,7 @@
 
   <script src="mock.js"></script>
   <script src="app.js"></script>
+
 
 
 
