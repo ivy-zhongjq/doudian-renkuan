@@ -1,5 +1,8 @@
 // app.js — 抖店认款系统交互逻辑
 
+// 当前认款类型：settlement（抖店结算认款）/ commission（达人佣金认款）
+let currentRenkuanType = 'settlement';
+
 // ===== 侧边栏菜单渲染 =====
 function renderSidebar() {
   const menuEl = document.getElementById('sidebarMenu');
@@ -374,6 +377,8 @@ function handleImportRenkuan(type) {
   const modalTitle = document.getElementById('renkuanModalTitle');
   const billTitle = document.getElementById('billImportTitle');
 
+  currentRenkuanType = type || 'settlement';
+
   if (type === 'commission') {
     modalTitle.textContent = '达人佣金认款';
     billTitle.textContent = '导入达人佣金账单认款';
@@ -386,7 +391,7 @@ function handleImportRenkuan(type) {
   document.body.style.overflow = 'hidden';
 }
 
-// ===== 导入抖店结算账单 → 自动匹配生成认款板块 =====
+// ===== 导入账单 → 自动匹配生成认款板块 =====
 function handleBillUpload() {
   showToast('正在解析账单文件...', 'info');
 
@@ -394,56 +399,80 @@ function handleBillUpload() {
     const container = document.getElementById('renkuanBlocksContainer');
     container.innerHTML = '';
 
-    // 按 "客户|款项类型" 分组，同组内合并金额和订单号
-    const groups = {};
-
-    DB.mockBillData.forEach((bill) => {
-      const paymentType = DB.productIdMap[bill.productId] || '礼品';
-
-      // 1. 抖音零售客户：款项类型由商品ID匹配，金额=用户实付-支出合计+达人佣金
-      const amount1 = parseFloat((bill.userPaid - bill.totalExpenditure + bill.influencerCommission).toFixed(2));
-      if (amount1 !== 0) {
-        const key = 'CUST1001|' + paymentType;
-        if (!groups[key]) groups[key] = { custValue: 'CUST1001', custLabel: '抖音零售客户', paymentType: paymentType, amount: 0, orderNos: [], remarks: [] };
-        groups[key].amount = parseFloat((groups[key].amount + amount1).toFixed(2));
-        groups[key].orderNos.push(bill.orderNo);
-        groups[key].remarks.push('用户实付');
-      }
-
-      // 2. 北京有竹居：款项类型=信息服务费，金额=平台补贴
-      const amount2 = parseFloat(bill.platformSubsidy.toFixed(2));
-      if (amount2 !== 0) {
-        const key = 'CUST1002|信息服务费';
-        if (!groups[key]) groups[key] = { custValue: 'CUST1002', custLabel: '北京有竹居网络技术有限公司', paymentType: '信息服务费', amount: 0, orderNos: [], remarks: [] };
-        groups[key].amount = parseFloat((groups[key].amount + amount2).toFixed(2));
-        groups[key].orderNos.push(bill.orderNo + '-A');
-        groups[key].remarks.push('平台补贴');
-      }
-
-      // 3. 字跳科技：款项类型=信息服务费，金额=抖音支付补贴+抖音月付补贴
-      const amount3 = parseFloat((bill.douyinPaySubsidy + bill.douyinMonthlySubsidy).toFixed(2));
-      if (amount3 !== 0) {
-        const key = 'CUST1003|信息服务费';
-        if (!groups[key]) groups[key] = { custValue: 'CUST1003', custLabel: '北京字跳网络技术有限公司', paymentType: '信息服务费', amount: 0, orderNos: [], remarks: [] };
-        groups[key].amount = parseFloat((groups[key].amount + amount3).toFixed(2));
-        groups[key].orderNos.push(bill.orderNo + '-B');
-        groups[key].remarks.push('支付优惠');
-      }
-    });
-
-    // 按分组生成板块，每个板块一行，关联订单号为多选
-    const groupKeys = Object.keys(groups);
-    if (groupKeys.length === 0) {
-      createAutoBlock(1, '', '', '', { amount: 0, orderNos: [], remark: '' });
-    } else {
-      groupKeys.forEach((key, idx) => {
-        const g = groups[key];
-        createAutoBlock(idx + 1, g.custValue, g.custLabel, g.paymentType, {
-          amount: g.amount,
-          orderNos: g.orderNos,
-          remark: g.remarks.join('、')
-        });
+    if (currentRenkuanType === 'commission') {
+      // ===== 达人佣金认款 =====
+      // K3客户：抖店零售客户
+      // 款项类型：信息服务费
+      // 客户名称：抖音零售客户
+      // 款项备注：达人佣金
+      // 金额：所有订单达人佣金合计
+      let totalCommission = 0;
+      const orderNos = [];
+      DB.mockBillData.forEach((bill) => {
+        totalCommission += bill.influencerCommission;
+        orderNos.push(bill.orderNo);
       });
+      totalCommission = parseFloat(totalCommission.toFixed(2));
+
+      createAutoBlock(1, 'CUST1001', '抖店零售客户', '信息服务费', {
+        amount: totalCommission,
+        orderNos: orderNos,
+        remark: '达人佣金',
+        customerName: '抖音零售客户'
+      });
+    } else {
+      // ===== 抖店结算认款 =====
+      // 按 "客户|款项类型" 分组，同组内合并金额和订单号
+      const groups = {};
+
+      DB.mockBillData.forEach((bill) => {
+        const paymentType = DB.productIdMap[bill.productId] || '礼品';
+
+        // 1. 抖音零售客户：款项类型由商品ID匹配，金额=用户实付-支出合计+达人佣金
+        const amount1 = parseFloat((bill.userPaid - bill.totalExpenditure + bill.influencerCommission).toFixed(2));
+        if (amount1 !== 0) {
+          const key = 'CUST1001|' + paymentType;
+          if (!groups[key]) groups[key] = { custValue: 'CUST1001', custLabel: '抖音零售客户', paymentType: paymentType, amount: 0, orderNos: [], remarks: [] };
+          groups[key].amount = parseFloat((groups[key].amount + amount1).toFixed(2));
+          groups[key].orderNos.push(bill.orderNo);
+          groups[key].remarks.push('用户实付');
+        }
+
+        // 2. 北京有竹居：款项类型=信息服务费，金额=平台补贴
+        const amount2 = parseFloat(bill.platformSubsidy.toFixed(2));
+        if (amount2 !== 0) {
+          const key = 'CUST1002|信息服务费';
+          if (!groups[key]) groups[key] = { custValue: 'CUST1002', custLabel: '北京有竹居网络技术有限公司', paymentType: '信息服务费', amount: 0, orderNos: [], remarks: [] };
+          groups[key].amount = parseFloat((groups[key].amount + amount2).toFixed(2));
+          groups[key].orderNos.push(bill.orderNo + '-A');
+          groups[key].remarks.push('平台补贴');
+        }
+
+        // 3. 字跳科技：款项类型=信息服务费，金额=抖音支付补贴+抖音月付补贴
+        const amount3 = parseFloat((bill.douyinPaySubsidy + bill.douyinMonthlySubsidy).toFixed(2));
+        if (amount3 !== 0) {
+          const key = 'CUST1003|信息服务费';
+          if (!groups[key]) groups[key] = { custValue: 'CUST1003', custLabel: '北京字跳网络技术有限公司', paymentType: '信息服务费', amount: 0, orderNos: [], remarks: [] };
+          groups[key].amount = parseFloat((groups[key].amount + amount3).toFixed(2));
+          groups[key].orderNos.push(bill.orderNo + '-B');
+          groups[key].remarks.push('支付优惠');
+        }
+      });
+
+      // 按分组生成板块，每个板块一行，关联订单号为多选
+      const groupKeys = Object.keys(groups);
+      if (groupKeys.length === 0) {
+        createAutoBlock(1, '', '', '', { amount: 0, orderNos: [], remark: '' });
+      } else {
+        groupKeys.forEach((key, idx) => {
+          const g = groups[key];
+          createAutoBlock(idx + 1, g.custValue, g.custLabel, g.paymentType, {
+            amount: g.amount,
+            orderNos: g.orderNos,
+            remark: g.remarks.join('、')
+          });
+        });
+      }
     }
 
     // 显示删除按钮（除第一个外）
@@ -462,8 +491,9 @@ function createAutoBlock(index, custValue, custLabel, paymentType, data) {
 
   // 生成客户名称下拉选项
   let customerOptionsHtml = '<option value="">请选择</option>';
+  const rowCustomerName = data.customerName || custLabel;
   DB.customerOptions.forEach((cust) => {
-    const selected = cust.label === custLabel ? 'selected' : '';
+    const selected = cust.label === rowCustomerName ? 'selected' : '';
     customerOptionsHtml += `<option value="${cust.value}" ${selected}>${cust.label}</option>`;
   });
 
@@ -484,6 +514,7 @@ function createAutoBlock(index, custValue, custLabel, paymentType, data) {
           <option value="">请选择</option>
           <option value="CUST1383" ${custValue === 'CUST1383' ? 'selected' : ''}>CUST1383 —— 阜阳童悦娱乐有限公司</option>
           <option value="CUST1001" ${custValue === 'CUST1001' ? 'selected' : ''}>CUST1001 —— 抖音零售客户</option>
+          <option value="CUST1001-DD" ${custValue === 'CUST1001-DD' ? 'selected' : ''}>CUST1001 —— 抖店零售客户</option>
           <option value="CUST1002" ${custValue === 'CUST1002' ? 'selected' : ''}>CUST1002 —— 北京有竹居网络技术有限公司</option>
           <option value="CUST1003" ${custValue === 'CUST1003' ? 'selected' : ''}>CUST1003 —— 北京字跳网络技术有限公司</option>
         </select>
@@ -796,6 +827,7 @@ function addRenkuanBlock() {
           <option value="">请选择</option>
           <option value="CUST1383">CUST1383 —— 阜阳童悦娱乐有限公司</option>
           <option value="CUST1001">CUST1001 —— 抖音零售客户</option>
+          <option value="CUST1001-DD">CUST1001 —— 抖店零售客户</option>
           <option value="CUST1002">CUST1002 —— 北京有竹居网络技术有限公司</option>
           <option value="CUST1003">CUST1003 —— 北京字跳网络技术有限公司</option>
         </select>
