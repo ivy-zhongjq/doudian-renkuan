@@ -465,7 +465,7 @@ const DB = {
   ],
 
   // 关联订单号下拉选项（从订单列表动态获取）
-  getOrderNoOptions() {
+  getOrderNoOptions: function() {
     const orderNos = [];
     this.orders.forEach((order) => {
       orderNos.push(order.totalOrderNo);
