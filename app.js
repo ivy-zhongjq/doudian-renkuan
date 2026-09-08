@@ -369,8 +369,19 @@ function closeRecognizedDetailModal() {
 }
 
 // ===== 操作按钮处理 =====
-function handleImportRenkuan() {
+function handleImportRenkuan(type) {
   const modal = document.getElementById('renkuanImportModal');
+  const modalTitle = document.getElementById('renkuanModalTitle');
+  const billTitle = document.getElementById('billImportTitle');
+
+  if (type === 'commission') {
+    modalTitle.textContent = '达人佣金认款';
+    billTitle.textContent = '导入达人佣金账单认款';
+  } else {
+    modalTitle.textContent = '抖店结算认款';
+    billTitle.textContent = '导入抖店结算账单认款';
+  }
+
   modal.classList.add('show');
   document.body.style.overflow = 'hidden';
 }

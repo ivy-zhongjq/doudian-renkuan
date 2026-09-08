@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>抖店认款 - 世宇智数管理系统</title>
-  <link rel="stylesheet" href="styles.css?v=20260908i">
+  <link rel="stylesheet" href="styles.css?v=20260908j">
 </head>
 <body style="overflow: hidden;">
   <div class="app">
@@ -214,13 +214,19 @@
         <!-- 操作按钮区 -->
         <div class="action-bar">
           <div class="action-buttons">
-            <button class="btn btn-primary" onclick="handleImportRenkuan()">
+            <button class="btn btn-primary" onclick="handleImportRenkuan('settlement')">
               <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="17 8 12 3 7 8"></polyline>
                 <line x1="12" y1="3" x2="12" y2="15"></line>
               </svg>
-              导入认款
+              抖店结算认款
+            </button>
+            <button class="btn btn-warning" onclick="handleImportRenkuan('commission')">
+              <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"></path>
+              </svg>
+              达人佣金认款
             </button>
             <button class="btn btn-success" onclick="handleImportInvoice()">
               <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -705,7 +711,7 @@
   <div class="modal-mask" id="renkuanImportModal">
     <div class="modal" style="max-width: 90%; width: max-content; min-width: 680px;">
       <div class="modal-header">
-        <div class="modal-title">导入认款</div>
+        <div class="modal-title" id="renkuanModalTitle">抖店结算认款</div>
         <button class="modal-close" onclick="closeRenkuanImportModal()">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -731,7 +737,7 @@
         <div style="margin-bottom: 20px;">
           <div style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
             <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-size: 12px; font-weight: 600;">0</span>
-            导入抖店结算账单认款
+            <span id="billImportTitle">导入抖店结算账单认款</span>
           </div>
           <div style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 24px 16px; text-align: center; cursor: pointer; transition: 0.2s; background: transparent;" onclick="handleBillUpload()" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" style="width: 32px; height: 32px; margin-bottom: 8px;">
@@ -972,8 +978,8 @@ https://fuwu.douyin.com/..."></textarea>
     </div>
   </div>
 
-  <script src="mock.js?v=20260908i"></script>
-  <script src="app.js?v=20260908i"></script>
+  <script src="mock.js?v=20260908j"></script>
+  <script src="app.js?v=20260908j"></script>
 
 
 

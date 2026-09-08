@@ -608,6 +608,15 @@ table {
   background-color: #059669;
 }
 
+.btn-warning {
+  background-color: #f59e0b;
+  color: #fff;
+}
+
+.btn-warning:hover {
+  background-color: #d97706;
+}
+
 .btn-default {
   background-color: #fff;
   color: var(--text-secondary);
