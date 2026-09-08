@@ -177,6 +177,20 @@ const DB = {
       },
       {
         relatedOrderNo: '6925165121833041575',
+        orderAmount: 0.99,
+        recognizeStatus: '已认款',
+        recognizedAmount: 0.99,
+        fundCategory: '信息服务费',
+        fundMonth: '2026-04',
+        customerName: '抖音零售客户',
+        invoiceStatus: '待开票',
+        invoiceAmount: 0.99,
+        remark: '达人佣金服务费',
+        recognizeTime: '2026-03-27',
+        recognizer: '饶子杰'
+      },
+      {
+        relatedOrderNo: '6925165121833041575',
         orderAmount: 9.9,
         recognizeStatus: '-',
         recognizedAmount: '-',
