@@ -98,8 +98,8 @@ function renderOrderTable() {
         <td class="num-col">${order.userPaid}</td>
         <td class="num-col">${order.platformSubsidy}</td>
         <td class="num-col">${order.paymentDiscount}</td>
-        <td class="num-col">${order.influencerServiceFee}</td>
         <td class="num-col">${order.platformCommission}</td>
+        <td class="num-col">${order.influencerServiceFee}</td>
         <td class="num-col">${(order.influencerCommission - order.influencerServiceFee).toFixed(2)}</td>
         <td class="num-col">${order.settlementAmount}</td>
         <td class="num-col"><span class="order-link" onclick="openRecognizedDetail('${order.totalOrderNo}')">${order.recognizedAmount}</span></td>
