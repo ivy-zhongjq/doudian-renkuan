@@ -12,8 +12,6 @@ const DB = {
   sidebarMenus: [
     { label: '认款管理', icon: 'receipt', children: [
       { label: '抖店认款订单', key: 'renkuan-list', active: true },
-      { label: '已认款明细', key: 'yirenkuan-mingxi' },
-      { label: '新零售已认款订单', key: 'xinlingshou-yirenkuan' },
     ]},
   ],
 
