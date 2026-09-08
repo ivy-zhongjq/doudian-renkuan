@@ -35,7 +35,7 @@ const DB = {
       platformCommission: 9.9,
       settlementAmount: 178.2,
       recognizedAmount: 187.11,
-      recognizeTime: '2026-09-01',
+      recognizeTime: '2026-03-27',
       ourInvoice: '已开票',
       douyinInvoice: '已开票',
       isSettled: '已结清',
@@ -53,7 +53,7 @@ const DB = {
       platformCommission: 9.9,
       settlementAmount: 178.2,
       recognizedAmount: 187.11,
-      recognizeTime: '2026-09-01',
+      recognizeTime: '2026-03-27',
       ourInvoice: '部分开票',
       douyinInvoice: '已开票',
       isSettled: '已结清',
@@ -71,7 +71,7 @@ const DB = {
       platformCommission: 1.19,
       settlementAmount: 196.81,
       recognizedAmount: 196.81,
-      recognizeTime: '2026-09-01',
+      recognizeTime: '2026-03-27',
       ourInvoice: '已开票',
       douyinInvoice: '已开票',
       isSettled: '已结清',
@@ -89,7 +89,7 @@ const DB = {
       platformCommission: 19.8,
       settlementAmount: 178.2,
       recognizedAmount: 178.2,
-      recognizeTime: '2026-09-01',
+      recognizeTime: '2026-03-27',
       ourInvoice: '已开票',
       douyinInvoice: '已开票',
       isSettled: '已结清',
@@ -107,7 +107,7 @@ const DB = {
       platformCommission: 9.9,
       settlementAmount: 178.2,
       recognizedAmount: 187.11,
-      recognizeTime: '2026-09-01',
+      recognizeTime: '2026-03-27',
       ourInvoice: '已开票',
       douyinInvoice: '已开票',
       isSettled: '已结清',
@@ -130,7 +130,7 @@ const DB = {
         invoiceStatus: '已开票',
         invoiceAmount: 187.5,
         remark: '用户实付',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       },
       {
@@ -144,7 +144,7 @@ const DB = {
         invoiceStatus: '已开票',
         invoiceAmount: 9,
         remark: '平台补贴',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       },
       {
@@ -158,7 +158,7 @@ const DB = {
         invoiceStatus: '已开票',
         invoiceAmount: 1.5,
         remark: '支付优惠',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       },
       {
@@ -172,7 +172,7 @@ const DB = {
         invoiceStatus: '无需开票',
         invoiceAmount: '-',
         remark: '达人佣金',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       },
       {
@@ -186,7 +186,7 @@ const DB = {
         invoiceStatus: '抖店已开票',
         invoiceAmount: 9.9,
         remark: '平台佣金',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       }
     ],
@@ -202,7 +202,7 @@ const DB = {
         invoiceStatus: '已开票',
         invoiceAmount: 193,
         remark: '用户实付',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       },
       {
@@ -216,7 +216,7 @@ const DB = {
         invoiceStatus: '待开票',
         invoiceAmount: '-',
         remark: '支付优惠',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       },
       {
@@ -230,7 +230,7 @@ const DB = {
         invoiceStatus: '无需开票',
         invoiceAmount: '-',
         remark: '达人佣金',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       },
       {
@@ -244,7 +244,7 @@ const DB = {
         invoiceStatus: '抖店已开票',
         invoiceAmount: 9.9,
         remark: '平台佣金',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       }
     ],
@@ -260,7 +260,7 @@ const DB = {
         invoiceStatus: '已开票',
         invoiceAmount: 198,
         remark: '用户实付',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       },
       {
@@ -274,7 +274,7 @@ const DB = {
         invoiceStatus: '抖店已开票',
         invoiceAmount: 1.19,
         remark: '平台佣金',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       }
     ],
@@ -290,7 +290,7 @@ const DB = {
         invoiceStatus: '已开票',
         invoiceAmount: 166.83,
         remark: '用户实付',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       },
       {
@@ -304,7 +304,7 @@ const DB = {
         invoiceStatus: '已开票',
         invoiceAmount: 31.17,
         remark: '平台补贴',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       },
       {
@@ -318,7 +318,7 @@ const DB = {
         invoiceStatus: '抖店已开票',
         invoiceAmount: 19.8,
         remark: '平台佣金',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       }
     ],
@@ -334,7 +334,7 @@ const DB = {
         invoiceStatus: '已开票',
         invoiceAmount: 198,
         remark: '用户实付',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       },
       {
@@ -348,7 +348,7 @@ const DB = {
         invoiceStatus: '无需开票',
         invoiceAmount: '-',
         remark: '达人佣金',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       },
       {
@@ -362,7 +362,7 @@ const DB = {
         invoiceStatus: '抖店已开票',
         invoiceAmount: 9.9,
         remark: '平台佣金',
-        recognizeTime: '2026-09-01',
+        recognizeTime: '2026-03-27',
         recognizer: '饶子杰'
       }
     ]
