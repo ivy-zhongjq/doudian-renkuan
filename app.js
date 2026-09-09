@@ -92,6 +92,7 @@ function renderOrderTable() {
   let html = '';
 
   // 获取筛选条件
+  const orderNoKeyword = document.getElementById('filterOrderNo')?.value.trim() || '';
   const fundMonth = document.getElementById('filterFundMonth')?.value || '';
   const settled = document.getElementById('filterSettled')?.value || '';
   const recognized = document.getElementById('filterRecognized')?.value || '';
@@ -102,6 +103,7 @@ function renderOrderTable() {
 
   // 过滤数据
   const filteredOrders = DB.orders.filter((order) => {
+    if (orderNoKeyword && !order.totalOrderNo.includes(orderNoKeyword)) return false;
     if (fundMonth && order.fundMonth !== fundMonth) return false;
     if (settled && order.isSettled !== settled) return false;
     if (douyinInvoice && order.douyinInvoice !== douyinInvoice) return false;
@@ -144,7 +146,7 @@ function renderOrderTable() {
 
 // ===== 筛选事件绑定 =====
 function bindFilterEvents() {
-  const filterIds = ['filterFundMonth', 'filterSettled', 'filterRecognized', 'filterDouyinInvoice', 'filterOurInvoice', 'filterDateStart', 'filterDateEnd'];
+  const filterIds = ['filterOrderNo', 'filterFundMonth', 'filterSettled', 'filterRecognized', 'filterDouyinInvoice', 'filterOurInvoice', 'filterDateStart', 'filterDateEnd'];
   filterIds.forEach((id) => {
     const el = document.getElementById(id);
     if (el) {
