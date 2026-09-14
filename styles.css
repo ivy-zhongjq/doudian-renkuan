@@ -490,6 +490,32 @@ table {
   margin-bottom: 0;
 }
 
+/* ===== 页签切换 ===== */
+.status-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: var(--space-4);
+  border-bottom: 2px solid var(--border);
+}
+.status-tab {
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+}
+.status-tab:hover {
+  color: var(--primary);
+}
+.status-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  font-weight: 600;
+}
+
 /* ===== 筛选区域 ===== */
 .filter-card {
   background-color: var(--surface);
