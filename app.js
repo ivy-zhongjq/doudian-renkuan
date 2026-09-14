@@ -3,8 +3,8 @@
 // 当前认款类型：settlement（抖店结算认款）/ commission（达人佣金认款）
 let currentRenkuanType = 'settlement';
 
-// 当前页签：pending-recognition（待认款）/ pending-settlement（待结清）/ settled（已结清）
-let currentTab = 'pending-recognition';
+// 当前页签：all（全部）/ pending-recognition（待认款）/ pending-settlement（待结清）/ settled（已结清）
+let currentTab = 'all';
 
 // ===== 页签切换 =====
 function switchTab(status) {
@@ -116,9 +116,11 @@ function renderOrderTable() {
   // 过滤数据
   const filteredOrders = DB.orders.filter((order) => {
     // 页签过滤
-    if (currentTab === 'pending-recognition' && order.recognizedAmount !== '-') return false;
-    if (currentTab === 'pending-settlement' && (order.recognizedAmount === '-' || order.isSettled === '已结清')) return false;
-    if (currentTab === 'settled' && order.isSettled !== '已结清') return false;
+    if (currentTab === 'all') {
+      // 全部：不按页签过滤
+    } else if (currentTab === 'pending-recognition' && order.recognizedAmount !== '-') return false;
+    else if (currentTab === 'pending-settlement' && (order.recognizedAmount === '-' || order.isSettled === '已结清')) return false;
+    else if (currentTab === 'settled' && order.isSettled !== '已结清') return false;
 
     if (orderNoKeyword && !order.totalOrderNo.includes(orderNoKeyword)) return false;
     if (fundMonth && order.fundMonth !== fundMonth) return false;
