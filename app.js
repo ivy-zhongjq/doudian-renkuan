@@ -263,21 +263,6 @@ function openOrderDetail(totalOrderNo) {
     `;
   }
 
-  // 添加说明文字
-  const noteHtml = `
-    <div class="modal-note">
-      <span class="note-icon">
-        <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" y1="16" x2="12" y2="12"/>
-          <line x1="12" y1="8" x2="12.01" y2="8"/>
-        </svg>
-      </span>
-      <span>注：达人佣金和平台佣金先从原订单金额扣除；达人佣金服务费为达人佣金的10%</span>
-    </div>
-  `;
-  summaryEl.innerHTML += noteHtml;
-
   // 渲染关联订单表格
   const detailTbody = document.getElementById('detailTableBody');
   let html = '';
