@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>抖店认款 - 世宇智数管理系统</title>
-  <link rel="stylesheet" href="styles.css?v=20260915a">
+  <link rel="stylesheet" href="styles.css?v=20260915b">
 </head>
 <body style="overflow: hidden;">
   <div class="app">
@@ -916,7 +916,7 @@
             <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-size: 12px; font-weight: 600;">1</span>
             关联订单导入
           </div>
-          <div style="border-color: var(--border); border-top-style: ; border-top-width: ; border-right-style: ; border-right-width: ; border-bottom-style: ; border-bottom-width: ; border-left-style: ; border-left-width: ; border-image-source: ; border-image-slice: ; border-image-width: ; border-image-outset: ; border-image-repeat: ; border-radius: var(--radius-md); padding: 24px 16px; text-align: center; cursor: pointer; transition: 0.2s; background: transparent;" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
+          <div style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 24px 16px; text-align: center; cursor: pointer; transition: 0.2s; background: transparent;" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" style="width: 32px; height: 32px; margin-bottom: 8px;">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
               <polyline points="17 8 12 3 7 8"></polyline>
@@ -927,16 +927,21 @@
           </div>
         </div>
 
-        <!-- 2. 发票链接输入 -->
+        <!-- 2. 发票文件上传 -->
         <div style="margin-bottom: 20px;">
           <div style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
             <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-size: 12px; font-weight: 600;">2</span>
-            发票链接输入
+            发票文件上传
           </div>
-          <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">输入抖店发票链接，每行一条：</div>
-          <textarea id="invoiceLinkInput" rows="5" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; color: var(--text-primary); resize: vertical; line-height: 1.6; font-family: inherit; box-sizing: border-box;" placeholder="粘贴发票链接，例如：
-https://fuwu.douyin.com/...
-https://fuwu.douyin.com/..."></textarea>
+          <div style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 24px 16px; text-align: center; cursor: pointer; transition: 0.2s; background: transparent;" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" style="width: 32px; height: 32px; margin-bottom: 8px;">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">点击或拖拽发票文件到此处上传</div>
+            <div style="font-size: 12px; color: var(--text-tertiary);">支持 .pdf / .ofd / .jpg / .png 格式，可批量上传</div>
+          </div>
         </div>
 
         <!-- 导入说明 -->
@@ -958,8 +963,8 @@ https://fuwu.douyin.com/..."></textarea>
     </div>
   </div>
 
-  <script src="mock.js?v=20260915a"></script>
-  <script src="app.js?v=20260915a"></script>
+  <script src="mock.js?v=20260915b"></script>
+  <script src="app.js?v=20260915b"></script>
 
 
 
