@@ -39,7 +39,11 @@ const DB = {
       isSettled: '已结清',
       fundMonth: '2026-03',
       remark: '平台补贴、支付优惠、达人佣金、平台佣金都有',
-      recognizer: ''
+      recognizer: '',
+      douyinInvoiceDetails: [
+        { invoiceNo: 'FP20260327001', invoiceAmount: 187.5 },
+        { invoiceNo: 'FP20260327002', invoiceAmount: 9.9 }
+      ]
     },
     {
       totalOrderNo: '6925180932148788326',
@@ -58,7 +62,10 @@ const DB = {
       isSettled: '未结清',
       fundMonth: '2026-03',
       remark: '只有支付优惠、达人佣金、平台佣金',
-      recognizer: ''
+      recognizer: '',
+      douyinInvoiceDetails: [
+        { invoiceNo: 'FP20260327003', invoiceAmount: 187.5 }
+      ]
     },
     {
       totalOrderNo: '6925150126368325030',
@@ -77,7 +84,10 @@ const DB = {
       isSettled: '已结清',
       fundMonth: '2026-03',
       remark: '（此单只收了平台佣金）',
-      recognizer: ''
+      recognizer: '',
+      douyinInvoiceDetails: [
+        { invoiceNo: 'FP20260327004', invoiceAmount: 196.81 }
+      ]
     },
     {
       totalOrderNo: '6925223516209053190',
@@ -96,7 +106,8 @@ const DB = {
       isSettled: '未结清',
       fundMonth: '2026-04',
       remark: '只有平台补贴（此单支出合计包含平台服务费和站外推广费，都需平台开票）',
-      recognizer: ''
+      recognizer: '',
+      douyinInvoiceDetails: []
     },
     {
       totalOrderNo: '6951628017741076249',
@@ -115,7 +126,11 @@ const DB = {
       isSettled: '已结清',
       fundMonth: '2026-04',
       remark: '只有达人佣金、平台佣金',
-      recognizer: ''
+      recognizer: '',
+      douyinInvoiceDetails: [
+        { invoiceNo: 'FP20260327005', invoiceAmount: 178.2 },
+        { invoiceNo: 'FP20260327006', invoiceAmount: 9.9 }
+      ]
     }
   ],
 

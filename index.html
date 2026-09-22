@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>抖店认款 - 世宇智数管理系统</title>
-  <link rel="stylesheet" href="styles.css?v=20260915b">
+  <link rel="stylesheet" href="styles.css?v=20260922a">
 </head>
 <body style="overflow: hidden;">
   <div class="app">
@@ -61,16 +61,6 @@
           <div class="menu-item active" data-key="renkuan-list">
             <span class="menu-dot"></span>
             <span>抖店认款订单</span>
-          </div>
-      
-          <div class="menu-item " data-key="yirenkuan-mingxi">
-            <span class="menu-dot"></span>
-            <span>已认款明细</span>
-          </div>
-      
-          <div class="menu-item " data-key="xinlingshou-yirenkuan">
-            <span class="menu-dot"></span>
-            <span>新零售已认款订单</span>
           </div>
       
         </div>
@@ -152,12 +142,7 @@
       <!-- 内容区 -->
       <main class="content">
         <!-- 切换页签 -->
-        <div class="status-tabs">
-          <div class="status-tab active" data-status="all" onclick="switchTab('all')">全部</div>
-          <div class="status-tab" data-status="pending-recognition" onclick="switchTab('pending-recognition')">待认款</div>
-          <div class="status-tab" data-status="pending-settlement" onclick="switchTab('pending-settlement')">待结清</div>
-          <div class="status-tab" data-status="settled" onclick="switchTab('settled')">已结清</div>
-        </div>
+        
 
         <!-- 筛选区域 -->
         <div class="filter-card">
@@ -225,6 +210,12 @@
                 <line x1="16" y1="17" x2="8" y2="17"></line>
                 <polyline points="10 9 9 9 8 9"></polyline>
               </svg>抖店开票导入</button>
+            <button class="btn btn-default" onclick="openExportModal()">
+              <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>导出</button>
           </div>
         </div>
 
@@ -248,6 +239,7 @@
                     <th>交易时间</th>
                     <th>我方开票</th>
                     <th>抖店开票</th>
+                    <th>抖店开票明细</th>
                     <th>是否已结清</th>
                     <th style="width: 126px; min-width: 126px;">备注</th>
                     <th class="action-col">操作</th>
@@ -299,7 +291,7 @@
         <td>2026-03-27</td>
         <td><span class="status-tag warning">部分开票</span> <button class="btn-download" onclick="handleDownloadInvoice(event)" title="下载发票"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button></td>
         <td><span class="status-tag success">已开票</span> <button class="btn-download" onclick="handleDownloadInvoice(event)" title="下载发票"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button></td>
-        <td><span class="status-tag success">已结清</span></td>
+        <td><span class="status-tag warning">未结清</span></td>
         <td><span class="remark-text">只有支付优惠、达人佣金、平台佣金</span></td>
         <td class="action-col">
           <button class="btn btn-text" onclick="handleEdit('6925180932148788326')">编辑</button>
@@ -347,11 +339,11 @@
         <td class="num-col">0</td>
         <td class="num-col">0.00</td>
         <td class="num-col">178.2</td>
-        <td class="num-col"><span class="order-link" onclick="openRecognizedDetail('6925223516209053190')">178.2</span></td>
-        <td>2026-03-27</td>
-        <td><span class="status-tag success">已开票</span> <button class="btn-download" onclick="handleDownloadInvoice(event)" title="下载发票"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button></td>
-        <td><span class="status-tag success">已开票</span> <button class="btn-download" onclick="handleDownloadInvoice(event)" title="下载发票"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button></td>
-        <td><span class="status-tag success">已结清</span></td>
+        <td class="num-col"><span class="order-link" onclick="openRecognizedDetail('6925223516209053190')">-</span></td>
+        <td>-</td>
+        <td><span class="status-tag gray">未开票</span></td>
+        <td><span class="status-tag gray">未开票</span></td>
+        <td><span class="status-tag warning">未结清</span></td>
         <td><span class="remark-text">只有平台补贴（此单支出合计包含平台服务费和站外推广费，都需平台开票）</span></td>
         <td class="action-col">
           <button class="btn btn-text" onclick="handleEdit('6925223516209053190')">编辑</button>
@@ -963,8 +955,48 @@
     </div>
   </div>
 
-  <script src="mock.js?v=20260915b"></script>
-  <script src="app.js?v=20260915b"></script>
+  <!-- ===== 导出弹窗 ===== -->
+  <div class="modal-mask" id="exportModal">
+    <div class="modal" style="max-width: 460px;">
+      <div class="modal-header">
+        <div class="modal-title">导出抖店认款订单</div>
+        <button class="modal-close" onclick="closeExportModal()">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="filter-item" style="gap: 12px; margin-bottom: 16px;">
+          <label style="font-size: 13px; color: var(--text-secondary); min-width: 80px; text-align: right;">认款时间范围</label>
+          <div class="date-range" style="flex: 1;">
+            <input type="date" id="exportDateStart" placeholder="开始日期">
+            <span class="date-separator">至</span>
+            <input type="date" id="exportDateEnd" placeholder="结束日期">
+          </div>
+        </div>
+        <div style="padding: 12px; background: #f9fafb; border-radius: var(--radius-sm); display: flex; align-items: flex-start; gap: 8px;">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" style="margin-top: 2px;">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <div style="font-size: 12px; color: var(--text-tertiary); line-height: 1.6;">
+            说明：将按所选认款时间范围导出订单数据为 Excel 文件。如不选择时间范围，则导出全部数据。
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" onclick="closeExportModal()">取消</button>
+        <button class="btn btn-primary" onclick="handleExport()">确认导出</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="mock.js?v=20260922a"></script>
+  <script src="app.js?v=20260922a"></script>
+
 
 
 

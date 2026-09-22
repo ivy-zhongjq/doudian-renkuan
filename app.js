@@ -150,6 +150,7 @@ function renderOrderTable() {
         <td>${order.recognizeTime}</td>
         <td>${renderInvoiceStatus(order.ourInvoice)}</td>
         <td>${renderInvoiceStatus(order.douyinInvoice)}</td>
+        <td>${renderDouyinInvoiceDetails(order.douyinInvoiceDetails)}</td>
         <td>${renderSettleStatus(order.isSettled)}</td>
         <td><span class="remark-text">${order.remark}</span></td>
         <td class="action-col">
@@ -212,6 +213,112 @@ function renderSettleStatus(status) {
     return '<span class="status-tag warning">未结清</span>';
   }
   return status || '-';
+}
+
+// 渲染抖店开票明细
+function renderDouyinInvoiceDetails(details) {
+  if (!details || details.length === 0) {
+    return '-';
+  }
+  return details.map(function(d) {
+    return '<div style="line-height: 1.8;">' + d.invoiceNo + '，开票金额' + d.invoiceAmount + '</div>';
+  }).join('');
+}
+
+// ===== 导出功能 =====
+function openExportModal() {
+  var modal = document.getElementById('exportModal');
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeExportModal() {
+  var modal = document.getElementById('exportModal');
+  modal.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function handleExport() {
+  var dateStart = document.getElementById('exportDateStart').value || '';
+  var dateEnd = document.getElementById('exportDateEnd').value || '';
+
+  // 按认款时间范围过滤
+  var exportData = DB.orders.filter(function(order) {
+    if (order.recognizeTime === '-') return false;
+    if (dateStart && order.recognizeTime < dateStart) return false;
+    if (dateEnd && order.recognizeTime > dateEnd) return false;
+    return true;
+  });
+
+  if (exportData.length === 0) {
+    showToast('所选时间范围内无数据', 'warning');
+    return;
+  }
+
+  // 生成文件名
+  var fileName = '抖店认款订单';
+  if (dateStart || dateEnd) {
+    var monthStr = '';
+    if (dateStart) {
+      var d = new Date(dateStart);
+      monthStr = d.getFullYear() + '年' + (d.getMonth() + 1) + '月';
+    } else if (dateEnd) {
+      var d2 = new Date(dateEnd);
+      monthStr = d2.getFullYear() + '年' + (d2.getMonth() + 1) + '月';
+    }
+    fileName = '抖店认款订单_' + monthStr;
+  }
+
+  // 生成Excel（HTML表格方式）
+  var headers = [
+    '总订单号', '订单金额', '用户实付', '平台补贴', '支付优惠',
+    '平台佣金', '达人佣金服务费', '达人佣金', '结算金额', '已认款',
+    '交易时间', '我方开票', '抖店开票', '抖店开票明细', '是否已结清', '备注'
+  ];
+
+  var rows = exportData.map(function(order) {
+    var invoiceDetailStr = '-';
+    if (order.douyinInvoiceDetails && order.douyinInvoiceDetails.length > 0) {
+      invoiceDetailStr = order.douyinInvoiceDetails.map(function(d) {
+        return d.invoiceNo + '，开票金额' + d.invoiceAmount;
+      }).join('\n');
+    }
+    return [
+      order.totalOrderNo, order.orderAmount, order.userPaid, order.platformSubsidy, order.paymentDiscount,
+      order.platformCommission, order.influencerServiceFee,
+      (order.influencerCommission - order.influencerServiceFee).toFixed(2),
+      order.settlementAmount, order.recognizedAmount,
+      order.recognizeTime, order.ourInvoice, order.douyinInvoice,
+      invoiceDetailStr, order.isSettled, order.remark
+    ];
+  });
+
+  // 构建HTML表格
+  var html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
+  html += '<head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>抖店认款订单</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>';
+  html += '<table border="1"><thead><tr>';
+  headers.forEach(function(h) { html += '<th style="background:#d1fae5;font-weight:bold;">' + h + '</th>'; });
+  html += '</tr></thead><tbody>';
+  rows.forEach(function(row) {
+    html += '<tr>';
+    row.forEach(function(cell) {
+      html += '<td style="mso-number-format:\\@;">' + cell + '</td>';
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table></body></html>';
+
+  // 下载文件
+  var blob = new Blob(['\ufeff' + html], { type: 'application/vnd.ms-excel;charset=utf-8' });
+  var link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = fileName + '.xls';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  closeExportModal();
+  showToast('导出成功，共 ' + exportData.length + ' 条记录', 'success');
 }
 
 // ===== 订单详情弹窗 =====
@@ -925,7 +1032,6 @@ function closeInvoiceImportModal() {
 }
 
 function submitInvoiceImport() {
-  const linkInput = document.getElementById('invoiceLinkInput').value.trim();
   closeInvoiceImportModal();
   showToast('导入成功，开票状态已更新', 'success');
 }
@@ -1027,6 +1133,9 @@ document.addEventListener('click', (e) => {
   if (e.target.id === 'invoiceImportModal') {
     closeInvoiceImportModal();
   }
+  if (e.target.id === 'exportModal') {
+    closeExportModal();
+  }
 });
 
 // ===== ESC 键关闭弹窗 =====
@@ -1037,6 +1146,7 @@ document.addEventListener('keydown', (e) => {
     closeRemarkModal();
     closeInvoiceImportModal();
     closeRenkuanImportModal();
+    closeExportModal();
   }
 });
 
