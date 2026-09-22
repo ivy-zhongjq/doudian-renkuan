@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>抖店认款 - 世宇智数管理系统</title>
-  <link rel="stylesheet" href="styles.css?v=20260922a">
+  <link rel="stylesheet" href="styles.css?v=20260922b">
 </head>
 <body style="overflow: hidden;">
   <div class="app">
@@ -969,11 +969,17 @@
       </div>
       <div class="modal-body">
         <div class="filter-item" style="gap: 12px; margin-bottom: 16px;">
-          <label style="font-size: 13px; color: var(--text-secondary); min-width: 80px; text-align: right;">认款时间范围</label>
-          <div class="date-range" style="flex: 1;">
-            <input type="date" id="exportDateStart" placeholder="开始日期">
-            <span class="date-separator">至</span>
-            <input type="date" id="exportDateEnd" placeholder="结束日期">
+          <label style="font-size: 13px; color: var(--text-secondary); min-width: 80px; text-align: right;">认款月份</label>
+          <div id="exportMonthPicker" style="display: flex; flex-wrap: wrap; gap: 8px; flex: 1;">
+            <label style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; cursor: pointer; transition: 0.2s;">
+              <input type="checkbox" value="2026-03" style="margin: 0;"> 2026-03
+            </label>
+            <label style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; cursor: pointer; transition: 0.2s;">
+              <input type="checkbox" value="2026-04" style="margin: 0;"> 2026-04
+            </label>
+            <label style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; cursor: pointer; transition: 0.2s;">
+              <input type="checkbox" value="2026-05" style="margin: 0;"> 2026-05
+            </label>
           </div>
         </div>
         <div style="padding: 12px; background: #f9fafb; border-radius: var(--radius-sm); display: flex; align-items: flex-start; gap: 8px;">
@@ -983,7 +989,7 @@
             <line x1="12" y1="8" x2="12.01" y2="8"></line>
           </svg>
           <div style="font-size: 12px; color: var(--text-tertiary); line-height: 1.6;">
-            说明：将按所选认款时间范围导出订单数据为 Excel 文件。如不选择时间范围，则导出全部数据。
+            说明：将按所选认款月份导出订单数据为 Excel 文件。可多选月份，如不选择则导出全部数据。
           </div>
         </div>
       </div>
@@ -994,8 +1000,8 @@
     </div>
   </div>
 
-  <script src="mock.js?v=20260922a"></script>
-  <script src="app.js?v=20260922a"></script>
+  <script src="mock.js?v=20260922b"></script>
+  <script src="app.js?v=20260922b"></script>
 
 
 

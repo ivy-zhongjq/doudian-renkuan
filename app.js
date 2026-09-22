@@ -239,34 +239,34 @@ function closeExportModal() {
 }
 
 function handleExport() {
-  var dateStart = document.getElementById('exportDateStart').value || '';
-  var dateEnd = document.getElementById('exportDateEnd').value || '';
+  // 获取选中的月份
+  var selectedMonths = [];
+  document.querySelectorAll('#exportMonthPicker input[type="checkbox"]:checked').forEach(function(cb) {
+    selectedMonths.push(cb.value);
+  });
 
-  // 按认款时间范围过滤
+  // 按认款月份过滤
   var exportData = DB.orders.filter(function(order) {
     if (order.recognizeTime === '-') return false;
-    if (dateStart && order.recognizeTime < dateStart) return false;
-    if (dateEnd && order.recognizeTime > dateEnd) return false;
+    // 从认款时间提取月份 (YYYY-MM)
+    var orderMonth = order.recognizeTime.substring(0, 7);
+    if (selectedMonths.length > 0 && !selectedMonths.includes(orderMonth)) return false;
     return true;
   });
 
   if (exportData.length === 0) {
-    showToast('所选时间范围内无数据', 'warning');
+    showToast('所选月份无数据', 'warning');
     return;
   }
 
   // 生成文件名
   var fileName = '抖店认款订单';
-  if (dateStart || dateEnd) {
-    var monthStr = '';
-    if (dateStart) {
-      var d = new Date(dateStart);
-      monthStr = d.getFullYear() + '年' + (d.getMonth() + 1) + '月';
-    } else if (dateEnd) {
-      var d2 = new Date(dateEnd);
-      monthStr = d2.getFullYear() + '年' + (d2.getMonth() + 1) + '月';
-    }
-    fileName = '抖店认款订单_' + monthStr;
+  if (selectedMonths.length > 0) {
+    var parts = selectedMonths.map(function(m) {
+      var d = new Date(m + '-01');
+      return d.getFullYear() + '年' + (d.getMonth() + 1) + '月';
+    });
+    fileName = '抖店认款订单_' + parts.join('-');
   }
 
   // 生成Excel（HTML表格方式）
