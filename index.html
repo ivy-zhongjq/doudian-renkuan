@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>抖店认款 - 世宇智数管理系统</title>
-  <link rel="stylesheet" href="styles.css?v=20260922b">
+  <link rel="stylesheet" href="styles.css?v=20260928a">
 </head>
 <body style="overflow: hidden;">
   <div class="app">
@@ -902,39 +902,45 @@
         </button>
       </div>
       <div class="modal-body">
-        <!-- 1. 关联订单导入 -->
-        <div style="margin-bottom: 20px;">
-          <div style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-            <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-size: 12px; font-weight: 600;">1</span>
-            关联订单导入
-          </div>
-          <div style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 24px 16px; text-align: center; cursor: pointer; transition: 0.2s; background: transparent;" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" style="width: 32px; height: 32px; margin-bottom: 8px;">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="17 8 12 3 7 8"></polyline>
-              <line x1="12" y1="3" x2="12" y2="15"></line>
-            </svg>
-            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">点击或拖拽文件到此处上传</div>
-            <div style="font-size: 12px; color: var(--text-tertiary);">支持 .xlsx / .csv 格式，单次最多导入 1000 条</div>
+        <!-- 发票导入区域容器（可多次新增） -->
+        <div id="invoiceImportContainer">
+          <!-- 发票导入板块1（默认） -->
+          <div class="invoice-import-block" data-block-index="1" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; background: #fafafa;">
+            <!-- 导入类型 -->
+            <div class="filter-item" style="gap: 12px; margin-bottom: 12px;">
+              <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">导入类型 <span style="color: var(--danger);">*</span></label>
+              <select class="invoice-type-select" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background-color: #fff; font-size: 13px; color: var(--text-primary); min-width: 200px;">
+                <option value="">请选择</option>
+                <option value="平台佣金">平台佣金</option>
+                <option value="达人佣金服务费">达人佣金服务费</option>
+              </select>
+            </div>
+            <!-- 发票编号 + 发票金额 -->
+            <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+              <div class="filter-item" style="flex: 1; gap: 8px;">
+                <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">发票编码 <span style="color: var(--danger);">*</span></label>
+                <input type="text" class="invoice-no-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary);" placeholder="请输入发票编码">
+              </div>
+              <div class="filter-item" style="flex: 1; gap: 8px;">
+                <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">发票金额 <span style="color: var(--danger);">*</span></label>
+                <input type="number" class="invoice-amount-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary); text-align: right;" placeholder="0.00">
+              </div>
+            </div>
+            <!-- 关联订单导入 -->
+            <div style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 16px; text-align: center; cursor: pointer; transition: 0.2s; background: transparent;" onclick="handleInvoiceFileUpload(this)" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" style="width: 28px; height: 28px; margin-bottom: 6px;">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">点击或拖拽关联订单文件到此处上传</div>
+              <div style="font-size: 12px; color: var(--text-tertiary);">支持 .xlsx / .csv 格式，单次最多导入 1000 条</div>
+            </div>
           </div>
         </div>
 
-        <!-- 2. 发票文件上传 -->
-        <div style="margin-bottom: 20px;">
-          <div style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-            <span style="display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-size: 12px; font-weight: 600;">2</span>
-            发票文件上传
-          </div>
-          <div style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 24px 16px; text-align: center; cursor: pointer; transition: 0.2s; background: transparent;" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" style="width: 32px; height: 32px; margin-bottom: 8px;">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="17 8 12 3 7 8"></polyline>
-              <line x1="12" y1="3" x2="12" y2="15"></line>
-            </svg>
-            <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">点击或拖拽发票文件到此处上传</div>
-            <div style="font-size: 12px; color: var(--text-tertiary);">支持 .pdf / .ofd / .jpg / .png 格式，可批量上传</div>
-          </div>
-        </div>
+        <!-- 新增导入板块按钮 -->
+        <button class="btn btn-default" style="width: 100%; height: 36px; border: 1px dashed var(--primary); color: var(--primary); font-size: 13px; margin-bottom: 16px;" onclick="addInvoiceImportBlock()">+ 新增导入</button>
 
         <!-- 导入说明 -->
         <div style="padding: 12px; background: #f9fafb; border-radius: var(--radius-sm); display: flex; align-items: flex-start; gap: 8px;">
@@ -944,7 +950,7 @@
             <line x1="12" y1="8" x2="12.01" y2="8"></line>
           </svg>
           <div style="font-size: 12px; color: var(--text-tertiary); line-height: 1.6;">
-            说明：导入后系统将自动匹配订单号并更新开票状态。如关联订单号不存在，该条记录将被跳过并在导入结果中提示。
+            说明：导入后系统将自动匹配订单号并更新开票状态，若有平台佣金有多张发票，请分多次对应导入。
           </div>
         </div>
       </div>
@@ -1000,8 +1006,8 @@
     </div>
   </div>
 
-  <script src="mock.js?v=20260922b"></script>
-  <script src="app.js?v=20260922b"></script>
+  <script src="mock.js?v=20260928a"></script>
+  <script src="app.js?v=20260928a"></script>
 
 
 

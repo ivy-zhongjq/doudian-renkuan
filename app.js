@@ -1032,8 +1032,122 @@ function closeInvoiceImportModal() {
 }
 
 function submitInvoiceImport() {
+  // 校验每个板块
+  var blocks = document.querySelectorAll('#invoiceImportContainer .invoice-import-block');
+  for (var i = 0; i < blocks.length; i++) {
+    var type = blocks[i].querySelector('.invoice-type-select').value;
+    var no = blocks[i].querySelector('.invoice-no-input').value.trim();
+    var amount = blocks[i].querySelector('.invoice-amount-input').value.trim();
+    if (!type || !no || !amount) {
+      showToast('请完整填写第' + (i + 1) + '个导入板块的信息', 'warning');
+      return;
+    }
+  }
   closeInvoiceImportModal();
   showToast('导入成功，开票状态已更新', 'success');
+  // 重置弹窗
+  resetInvoiceImportModal();
+}
+
+// 新增发票导入板块
+function addInvoiceImportBlock() {
+  var container = document.getElementById('invoiceImportContainer');
+  var blockCount = container.children.length;
+  var newIndex = blockCount + 1;
+
+  var blockHtml = `
+    <div class="invoice-import-block" data-block-index="${newIndex}" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; background: #fafafa; position: relative;">
+      <button style="position: absolute; top: 8px; right: 8px; border: none; background: transparent; color: var(--danger); cursor: pointer; font-size: 16px; padding: 2px 6px;" onclick="removeInvoiceImportBlock(this)" title="删除">✕</button>
+      <div class="filter-item" style="gap: 12px; margin-bottom: 12px;">
+        <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">导入类型 <span style="color: var(--danger);">*</span></label>
+        <select class="invoice-type-select" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background-color: #fff; font-size: 13px; color: var(--text-primary); min-width: 200px;">
+          <option value="">请选择</option>
+          <option value="平台佣金">平台佣金</option>
+          <option value="达人佣金服务费">达人佣金服务费</option>
+        </select>
+      </div>
+      <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+        <div class="filter-item" style="flex: 1; gap: 8px;">
+          <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">发票编码 <span style="color: var(--danger);">*</span></label>
+          <input type="text" class="invoice-no-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary);" placeholder="请输入发票编码">
+        </div>
+        <div class="filter-item" style="flex: 1; gap: 8px;">
+          <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">发票金额 <span style="color: var(--danger);">*</span></label>
+          <input type="number" class="invoice-amount-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary); text-align: right;" placeholder="0.00">
+        </div>
+      </div>
+      <div style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 16px; text-align: center; cursor: pointer; transition: 0.2s; background: transparent;" onclick="handleInvoiceFileUpload(this)" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" style="width: 28px; height: 28px; margin-bottom: 6px;">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">点击或拖拽关联订单文件到此处上传</div>
+        <div style="font-size: 12px; color: var(--text-tertiary);">支持 .xlsx / .csv 格式，单次最多导入 1000 条</div>
+      </div>
+    </div>
+  `;
+
+  container.insertAdjacentHTML('beforeend', blockHtml);
+}
+
+// 删除发票导入板块
+function removeInvoiceImportBlock(btn) {
+  var container = document.getElementById('invoiceImportContainer');
+  if (container.children.length > 1) {
+    btn.closest('.invoice-import-block').remove();
+  }
+}
+
+// 关联订单文件上传
+function handleInvoiceFileUpload(uploadEl) {
+  uploadEl.style.borderColor = 'var(--primary)';
+  uploadEl.style.background = 'var(--surface-hover)';
+  uploadEl.innerHTML = `
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" style="width: 28px; height: 28px; margin-bottom: 6px;">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+    </svg>
+    <div style="font-size: 13px; color: var(--success); margin-bottom: 4px;">文件已上传，等待确认导入</div>
+    <div style="font-size: 12px; color: var(--text-tertiary);">点击可重新上传</div>
+  `;
+  uploadEl.onclick = function() { handleInvoiceFileUpload(this); };
+}
+
+// 重置发票导入弹窗
+function resetInvoiceImportModal() {
+  var container = document.getElementById('invoiceImportContainer');
+  container.innerHTML = `
+    <div class="invoice-import-block" data-block-index="1" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; background: #fafafa;">
+      <div class="filter-item" style="gap: 12px; margin-bottom: 12px;">
+        <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">导入类型 <span style="color: var(--danger);">*</span></label>
+        <select class="invoice-type-select" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background-color: #fff; font-size: 13px; color: var(--text-primary); min-width: 200px;">
+          <option value="">请选择</option>
+          <option value="平台佣金">平台佣金</option>
+          <option value="达人佣金服务费">达人佣金服务费</option>
+        </select>
+      </div>
+      <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+        <div class="filter-item" style="flex: 1; gap: 8px;">
+          <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">发票编码 <span style="color: var(--danger);">*</span></label>
+          <input type="text" class="invoice-no-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary);" placeholder="请输入发票编码">
+        </div>
+        <div class="filter-item" style="flex: 1; gap: 8px;">
+          <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">发票金额 <span style="color: var(--danger);">*</span></label>
+          <input type="number" class="invoice-amount-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary); text-align: right;" placeholder="0.00">
+        </div>
+      </div>
+      <div style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 16px; text-align: center; cursor: pointer; transition: 0.2s; background: transparent;" onclick="handleInvoiceFileUpload(this)" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" style="width: 28px; height: 28px; margin-bottom: 6px;">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 4px;">点击或拖拽关联订单文件到此处上传</div>
+        <div style="font-size: 12px; color: var(--text-tertiary);">支持 .xlsx / .csv 格式，单次最多导入 1000 条</div>
+      </div>
+    </div>
+  `;
 }
 
 function handleEdit(orderNo) {
