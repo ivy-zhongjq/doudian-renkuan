@@ -328,15 +328,28 @@ function openOrderDetail(totalOrderNo) {
 
   const order = DB.orders.find(o => o.totalOrderNo === totalOrderNo);
 
-  // 设置弹窗标题
-  document.getElementById('modalTitle').textContent = `订单详情 - ${totalOrderNo}`;
+  // 设置弹窗标题（含结清状态）
+  const titleEl = document.getElementById('modalTitle');
+  if (order) {
+    titleEl.innerHTML = `订单详情 - ${totalOrderNo} ${renderSettleStatus(order.isSettled)}`;
+  } else {
+    titleEl.textContent = `订单详情 - ${totalOrderNo}`;
+  }
+
+  // 计算已认款金额（认款状态为已认款的金额相加）
+  let recognizedTotal = 0;
+  details.forEach((item) => {
+    if (item.recognizeStatus === '已认款' && typeof item.recognizedAmount === 'number') {
+      recognizedTotal += item.recognizedAmount;
+    }
+  });
 
   // 渲染摘要信息
   const summaryEl = document.getElementById('modalSummary');
   if (order) {
     summaryEl.innerHTML = `
       <div class="summary-item">
-        <span class="summary-label">订单总金额</span>
+        <span class="summary-label">订单金额</span>
         <span class="summary-value">¥${order.orderAmount}</span>
       </div>
       <div class="summary-item">
@@ -344,28 +357,32 @@ function openOrderDetail(totalOrderNo) {
         <span class="summary-value">¥${order.userPaid}</span>
       </div>
       <div class="summary-item">
-        <span class="summary-label">结算金额</span>
-        <span class="summary-value">¥${order.settlementAmount}</span>
+        <span class="summary-label">平台补贴</span>
+        <span class="summary-value">¥${order.platformSubsidy}</span>
       </div>
       <div class="summary-item">
-        <span class="summary-label">达人佣金</span>
-        <span class="summary-value">¥${(order.influencerCommission - order.influencerServiceFee).toFixed(2)}</span>
-      </div>
-      <div class="summary-item">
-        <span class="summary-label">达人佣金服务费</span>
-        <span class="summary-value">¥${order.influencerServiceFee}</span>
+        <span class="summary-label">支付优惠</span>
+        <span class="summary-value">¥${order.paymentDiscount}</span>
       </div>
       <div class="summary-item">
         <span class="summary-label">平台佣金</span>
         <span class="summary-value">¥${order.platformCommission}</span>
       </div>
       <div class="summary-item">
-        <span class="summary-label">已认款</span>
-        <span class="summary-value">¥${order.recognizedAmount}</span>
+        <span class="summary-label">达人佣金服务费</span>
+        <span class="summary-value">¥${order.influencerServiceFee}</span>
       </div>
       <div class="summary-item">
-        <span class="summary-label">是否已结清</span>
-        <span class="summary-value">${renderSettleStatus(order.isSettled)}</span>
+        <span class="summary-label">达人佣金</span>
+        <span class="summary-value">¥${(order.influencerCommission - order.influencerServiceFee).toFixed(2)}</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label">结算金额</span>
+        <span class="summary-value">¥${order.settlementAmount}</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label">已认款</span>
+        <span class="summary-value">¥${recognizedTotal.toFixed(2)}</span>
       </div>
     `;
   }
@@ -374,7 +391,17 @@ function openOrderDetail(totalOrderNo) {
   const detailTbody = document.getElementById('detailTableBody');
   let html = '';
 
-  details.forEach((item) => {
+  details.forEach((item, idx) => {
+    // 交易流水号、付款方户名：已认款的显示对应信息，否则显示「-」
+    var serialNo = item.transactionSerialNo || '-';
+    var payerName = item.payerName || '-';
+    if (item.recognizeStatus === '已认款' && serialNo === '-') {
+      serialNo = '110001900GYKG4GJZW' + (5 + idx);
+    }
+    if (item.recognizeStatus === '已认款' && payerName === '-') {
+      payerName = '江苏银行-平台交易资金专户（抖音）';
+    }
+
     html += `
       <tr>
         <td>${formatOrderNo(item.relatedOrderNo)}</td>
@@ -389,6 +416,8 @@ function openOrderDetail(totalOrderNo) {
         <td>${item.remark || '-'}</td>
         <td>${item.recognizeTime}</td>
         <td>${item.recognizer}</td>
+        <td>${serialNo}</td>
+        <td>${payerName}</td>
       </tr>
     `;
   });
