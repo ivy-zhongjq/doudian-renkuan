@@ -1059,21 +1059,21 @@ function addInvoiceImportBlock() {
     <div class="invoice-import-block" data-block-index="${newIndex}" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; background: #fafafa; position: relative;">
       <button style="position: absolute; top: 8px; right: 8px; border: none; background: transparent; color: var(--danger); cursor: pointer; font-size: 16px; padding: 2px 6px;" onclick="removeInvoiceImportBlock(this)" title="删除">✕</button>
       <div class="filter-item" style="gap: 12px; margin-bottom: 12px;">
-        <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">导入类型 <span style="color: var(--danger);">*</span></label>
-        <select class="invoice-type-select" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background-color: #fff; font-size: 13px; color: var(--text-primary); min-width: 200px;">
+        <label style="font-size: 13px; color: var(--text-secondary); min-width: 80px; text-align: right;">导入类型 <span style="color: var(--danger);">*</span></label>
+        <select class="invoice-type-select" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background-color: #fff; font-size: 13px; color: var(--text-primary);">
           <option value="">请选择</option>
           <option value="平台佣金">平台佣金</option>
           <option value="达人佣金服务费">达人佣金服务费</option>
         </select>
       </div>
-      <div style="display: flex; gap: 12px; margin-bottom: 12px;">
-        <div class="filter-item" style="flex: 1; gap: 8px;">
-          <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">发票编码 <span style="color: var(--danger);">*</span></label>
-          <input type="text" class="invoice-no-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary);" placeholder="请输入发票编码">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <div class="filter-item" style="flex: 1; gap: 12px;">
+          <label style="font-size: 13px; color: var(--text-secondary); min-width: 80px; text-align: right;">发票编码 <span style="color: var(--danger);">*</span></label>
+          <input type="text" class="invoice-no-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary); min-width: 0;" placeholder="请输入发票编码">
         </div>
-        <div class="filter-item" style="flex: 1; gap: 8px;">
-          <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">发票金额 <span style="color: var(--danger);">*</span></label>
-          <input type="number" class="invoice-amount-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary); text-align: right;" placeholder="0.00">
+        <div class="filter-item" style="flex: 1; gap: 12px;">
+          <label style="font-size: 13px; color: var(--text-secondary); min-width: 80px; text-align: right;">发票金额 <span style="color: var(--danger);">*</span></label>
+          <input type="number" class="invoice-amount-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary); text-align: right; min-width: 0;" placeholder="0.00">
         </div>
       </div>
       <div style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 16px; text-align: center; cursor: pointer; transition: 0.2s; background: transparent;" onclick="handleInvoiceFileUpload(this)" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">
@@ -1120,21 +1120,21 @@ function resetInvoiceImportModal() {
   container.innerHTML = `
     <div class="invoice-import-block" data-block-index="1" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; background: #fafafa;">
       <div class="filter-item" style="gap: 12px; margin-bottom: 12px;">
-        <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">导入类型 <span style="color: var(--danger);">*</span></label>
-        <select class="invoice-type-select" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background-color: #fff; font-size: 13px; color: var(--text-primary); min-width: 200px;">
+        <label style="font-size: 13px; color: var(--text-secondary); min-width: 80px; text-align: right;">导入类型 <span style="color: var(--danger);">*</span></label>
+        <select class="invoice-type-select" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background-color: #fff; font-size: 13px; color: var(--text-primary);">
           <option value="">请选择</option>
           <option value="平台佣金">平台佣金</option>
           <option value="达人佣金服务费">达人佣金服务费</option>
         </select>
       </div>
-      <div style="display: flex; gap: 12px; margin-bottom: 12px;">
-        <div class="filter-item" style="flex: 1; gap: 8px;">
-          <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">发票编码 <span style="color: var(--danger);">*</span></label>
-          <input type="text" class="invoice-no-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary);" placeholder="请输入发票编码">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <div class="filter-item" style="flex: 1; gap: 12px;">
+          <label style="font-size: 13px; color: var(--text-secondary); min-width: 80px; text-align: right;">发票编码 <span style="color: var(--danger);">*</span></label>
+          <input type="text" class="invoice-no-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary); min-width: 0;" placeholder="请输入发票编码">
         </div>
-        <div class="filter-item" style="flex: 1; gap: 8px;">
-          <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">发票金额 <span style="color: var(--danger);">*</span></label>
-          <input type="number" class="invoice-amount-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary); text-align: right;" placeholder="0.00">
+        <div class="filter-item" style="flex: 1; gap: 12px;">
+          <label style="font-size: 13px; color: var(--text-secondary); min-width: 80px; text-align: right;">发票金额 <span style="color: var(--danger);">*</span></label>
+          <input type="number" class="invoice-amount-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary); text-align: right; min-width: 0;" placeholder="0.00">
         </div>
       </div>
       <div style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 16px; text-align: center; cursor: pointer; transition: 0.2s; background: transparent;" onclick="handleInvoiceFileUpload(this)" onmouseover="this.style.borderColor='var(--primary)'; this.style.background='var(--surface-hover)';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='transparent';">

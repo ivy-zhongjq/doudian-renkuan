@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>抖店认款 - 世宇智数管理系统</title>
-  <link rel="stylesheet" href="styles.css?v=20260928a">
+  <link rel="stylesheet" href="styles.css?v=20260928b">
 </head>
 <body style="overflow: hidden;">
   <div class="app">
@@ -891,7 +891,7 @@
 
   <!-- ===== 抖店开票导入弹窗 ===== -->
   <div class="modal-mask" id="invoiceImportModal">
-    <div class="modal" style="max-width: 560px;">
+    <div class="modal" style="max-width: 600px;">
       <div class="modal-header">
         <div class="modal-title">抖店开票导入</div>
         <button class="modal-close" onclick="closeInvoiceImportModal()">
@@ -908,22 +908,22 @@
           <div class="invoice-import-block" data-block-index="1" style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; background: #fafafa;">
             <!-- 导入类型 -->
             <div class="filter-item" style="gap: 12px; margin-bottom: 12px;">
-              <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">导入类型 <span style="color: var(--danger);">*</span></label>
-              <select class="invoice-type-select" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background-color: #fff; font-size: 13px; color: var(--text-primary); min-width: 200px;">
+              <label style="font-size: 13px; color: var(--text-secondary); min-width: 80px; text-align: right;">导入类型 <span style="color: var(--danger);">*</span></label>
+              <select class="invoice-type-select" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background-color: #fff; font-size: 13px; color: var(--text-primary);">
                 <option value="">请选择</option>
                 <option value="平台佣金">平台佣金</option>
                 <option value="达人佣金服务费">达人佣金服务费</option>
               </select>
             </div>
             <!-- 发票编号 + 发票金额 -->
-            <div style="display: flex; gap: 12px; margin-bottom: 12px;">
-              <div class="filter-item" style="flex: 1; gap: 8px;">
-                <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">发票编码 <span style="color: var(--danger);">*</span></label>
-                <input type="text" class="invoice-no-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary);" placeholder="请输入发票编码">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+              <div class="filter-item" style="flex: 1; gap: 12px;">
+                <label style="font-size: 13px; color: var(--text-secondary); min-width: 80px; text-align: right;">发票编码 <span style="color: var(--danger);">*</span></label>
+                <input type="text" class="invoice-no-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary); min-width: 0;" placeholder="请输入发票编码">
               </div>
-              <div class="filter-item" style="flex: 1; gap: 8px;">
-                <label style="font-size: 13px; color: var(--text-secondary); min-width: 72px; text-align: right;">发票金额 <span style="color: var(--danger);">*</span></label>
-                <input type="number" class="invoice-amount-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary); text-align: right;" placeholder="0.00">
+              <div class="filter-item" style="flex: 1; gap: 12px;">
+                <label style="font-size: 13px; color: var(--text-secondary); min-width: 80px; text-align: right;">发票金额 <span style="color: var(--danger);">*</span></label>
+                <input type="number" class="invoice-amount-input" style="flex: 1; height: 32px; padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; color: var(--text-primary); text-align: right; min-width: 0;" placeholder="0.00">
               </div>
             </div>
             <!-- 关联订单导入 -->
@@ -1006,8 +1006,8 @@
     </div>
   </div>
 
-  <script src="mock.js?v=20260928a"></script>
-  <script src="app.js?v=20260928a"></script>
+  <script src="mock.js?v=20260928b"></script>
+  <script src="app.js?v=20260928b"></script>
 
 
 
