@@ -154,7 +154,14 @@ function renderOrderTable() {
         <td>${renderSettleStatus(order.isSettled)}</td>
         <td><span class="remark-text">${order.remark}</span></td>
         <td class="action-col">
-          <button class="btn btn-text" onclick="handleEdit('${order.totalOrderNo}')">编辑</button>
+          <div class="action-dropdown" id="actionDropdown_${order.totalOrderNo}">
+            <button class="btn btn-text" onclick="toggleActionMenu('${order.totalOrderNo}')">操作 <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><polyline points="6 9 12 15 18 9"/></svg></button>
+            <div class="action-menu" id="actionMenu_${order.totalOrderNo}">
+              <div class="action-menu-item" onclick="handleEdit('${order.totalOrderNo}')">编辑备注</div>
+              <div class="action-menu-item" onclick="handleCancelOrder('${order.totalOrderNo}')">单据已取消</div>
+              <div class="action-menu-item" onclick="handleSettleOrder('${order.totalOrderNo}')">单据已结清</div>
+            </div>
+          </div>
         </td>
       </tr>
     `;
@@ -221,7 +228,7 @@ function renderDouyinInvoiceDetails(details) {
     return '-';
   }
   return details.map(function(d) {
-    return '<div style="line-height: 1.8;">' + d.invoiceNo + '，开票金额' + d.invoiceAmount + '</div>';
+    return '<div style="line-height: 1.8;">' + d.invoiceNo + '，' + (d.invoiceType || '') + '开票金额' + d.invoiceAmount + '</div>';
   }).join('');
 }
 
@@ -280,7 +287,7 @@ function handleExport() {
     var invoiceDetailStr = '-';
     if (order.douyinInvoiceDetails && order.douyinInvoiceDetails.length > 0) {
       invoiceDetailStr = order.douyinInvoiceDetails.map(function(d) {
-        return d.invoiceNo + '，开票金额' + d.invoiceAmount;
+        return d.invoiceNo + '，' + (d.invoiceType || '') + '开票金额' + d.invoiceAmount;
       }).join('\n');
     }
     return [
@@ -514,6 +521,42 @@ function closeRecognizedDetailModal() {
 }
 
 // ===== 操作按钮处理 =====
+function toggleActionMenu(orderNo) {
+  // 关闭其他已打开的菜单
+  document.querySelectorAll('.action-menu.show').forEach(function(menu) {
+    if (menu.id !== 'actionMenu_' + orderNo) menu.classList.remove('show');
+  });
+  var menu = document.getElementById('actionMenu_' + orderNo);
+  if (menu) menu.classList.toggle('show');
+}
+
+// 点击页面其他地方关闭菜单
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.action-dropdown')) {
+    document.querySelectorAll('.action-menu.show').forEach(function(menu) {
+      menu.classList.remove('show');
+    });
+  }
+});
+
+function handleCancelOrder(orderNo) {
+  document.querySelectorAll('.action-menu.show').forEach(function(m) { m.classList.remove('show'); });
+  var order = DB.orders.find(function(o) { return o.totalOrderNo === orderNo; });
+  if (!order) return;
+  order.isSettled = '已取消';
+  showToast('订单 ' + orderNo + ' 已标记为已取消', 'success');
+  renderOrderTable();
+}
+
+function handleSettleOrder(orderNo) {
+  document.querySelectorAll('.action-menu.show').forEach(function(m) { m.classList.remove('show'); });
+  var order = DB.orders.find(function(o) { return o.totalOrderNo === orderNo; });
+  if (!order) return;
+  order.isSettled = '已结清';
+  showToast('订单 ' + orderNo + ' 已标记为已结清', 'success');
+  renderOrderTable();
+}
+
 function handleImportRenkuan(type) {
   const modal = document.getElementById('renkuanImportModal');
   const modalTitle = document.getElementById('renkuanModalTitle');

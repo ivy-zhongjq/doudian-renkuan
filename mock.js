@@ -41,8 +41,8 @@ const DB = {
       remark: '平台补贴、支付优惠、达人佣金、平台佣金都有',
       recognizer: '',
       douyinInvoiceDetails: [
-        { invoiceNo: 'FP20260327001', invoiceAmount: 187.5 },
-        { invoiceNo: 'FP20260327002', invoiceAmount: 9.9 }
+        { invoiceNo: 'FP20260327001', invoiceAmount: 9.9, invoiceType: '平台佣金' },
+        { invoiceNo: 'FP20260327002', invoiceAmount: 0.99, invoiceType: '达人佣金服务费' }
       ]
     },
     {
@@ -64,7 +64,7 @@ const DB = {
       remark: '只有支付优惠、达人佣金、平台佣金',
       recognizer: '',
       douyinInvoiceDetails: [
-        { invoiceNo: 'FP20260327003', invoiceAmount: 187.5 }
+        { invoiceNo: 'FP20260327003', invoiceAmount: 9.9, invoiceType: '平台佣金' }
       ]
     },
     {
@@ -86,7 +86,7 @@ const DB = {
       remark: '（此单只收了平台佣金）',
       recognizer: '',
       douyinInvoiceDetails: [
-        { invoiceNo: 'FP20260327004', invoiceAmount: 196.81 }
+        { invoiceNo: 'FP20260327004', invoiceAmount: 1.19, invoiceType: '平台佣金' }
       ]
     },
     {
@@ -128,8 +128,8 @@ const DB = {
       remark: '只有达人佣金、平台佣金',
       recognizer: '',
       douyinInvoiceDetails: [
-        { invoiceNo: 'FP20260327005', invoiceAmount: 178.2 },
-        { invoiceNo: 'FP20260327006', invoiceAmount: 9.9 }
+        { invoiceNo: 'FP20260327005', invoiceAmount: 9.9, invoiceType: '平台佣金' },
+        { invoiceNo: 'FP20260327006', invoiceAmount: 0.99, invoiceType: '达人佣金服务费' }
       ]
     }
   ],
